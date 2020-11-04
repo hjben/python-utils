@@ -33,6 +33,7 @@ def get_all_duplicate(df, column_list):
 def merge_df(root_dir):
     """
     Load and merge all xls(xlsm, xlsx) or csv files in a directory
+    Folders in the directory are to be ignored
 
     Parameters
     ----------
