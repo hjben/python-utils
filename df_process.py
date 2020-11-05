@@ -10,13 +10,13 @@ def get_all_duplicate(df, column_list):
     Raises
     ------
     ValueError
-        If the DataFrame is empty.
+        If the input DataFrame is empty.
 
     Parameters
     ----------
     df : DataFrame
         Base dataframe (required)
-    column_list: List
+    column_list : List
         Target column to extract duplicates (required)
 
     Returns
