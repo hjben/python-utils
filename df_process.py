@@ -25,7 +25,7 @@ def get_all_duplicate(df, column_list):
         DataFrame with the rows that the target columns are duplicated.
     """
     if not df:
-        raise ValueError
+        raise ValueError('DataFrame is empty')
 
     return df[df.duplicated(column_list) | df.duplicated(column_list, keep='last')]
 
@@ -33,7 +33,7 @@ def get_all_duplicate(df, column_list):
 def merge_df(root_dir):
     """
     Load and merge all xls(xlsm, xlsx) or csv files in a directory.
-    Folders in the directory are to be ignored.
+    Folders in the directory will be ignored.
 
     Parameters
     ----------
