@@ -15,9 +15,9 @@ def get_all_duplicate(df, column_list):
     Parameters
     ----------
     df : DataFrame
-        base dataframe (required)
-    column_list: list
-        target column to extract duplicates (required)
+        Base dataframe (required)
+    column_list: List
+        Target column to extract duplicates (required)
 
     Returns
     -------
@@ -38,7 +38,7 @@ def merge_df(root_dir):
     Parameters
     ----------
     root_dir : String
-        target directory (required)
+        Target directory (required)
 
     Returns
     -------
