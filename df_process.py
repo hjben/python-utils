@@ -5,7 +5,7 @@ import pandas as pd
 def get_all_duplicate(df, column_list):
     """
     Get all duplicated rows.
-    Extract all rows that the return value of 'DataFrame.duplicated' is true
+    Extract all rows that the return value of 'DataFrame.duplicated' is true.
 
     Raises
     ------
@@ -32,8 +32,8 @@ def get_all_duplicate(df, column_list):
 
 def merge_df(root_dir):
     """
-    Load and merge all xls(xlsm, xlsx) or csv files in a directory
-    Folders in the directory are to be ignored
+    Load and merge all xls(xlsm, xlsx) or csv files in a directory.
+    Folders in the directory are to be ignored.
 
     Parameters
     ----------
