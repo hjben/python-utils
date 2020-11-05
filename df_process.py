@@ -34,6 +34,11 @@ def merge_df(root_dir):
     """
     Load and merge all xls(xlsm, xlsx) or csv files in a directory.
     Folders in the directory will be ignored.
+    
+    Raises
+    ------
+    TypeError
+        If the input data is not a string.
 
     Parameters
     ----------
@@ -45,6 +50,9 @@ def merge_df(root_dir):
     DataFrame
         Merged DataFrame
     """
+    if type(root_dir) != str:
+        raise TypeError("Type of target directory name must be <class 'str'>, but {}".format(type(root_dir)))
+    
     return pd.concat(
         [pd.read_csv(root_dir + file) for file in os.listdir(root_dir) if file.split('.')[-1].find('csv') > -1] +
         [pd.read_excel(root_dir + file) for file in os.listdir(root_dir) if file.split('.')[-1].find('xls') > -1]
