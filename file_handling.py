@@ -1,7 +1,7 @@
 import os
 
 
-def is_hidden(file):
+def is_hidden(file_name):
     """
     Get boolean if a file (or a directory) is hidden or not, with linux based OS.
 
@@ -12,7 +12,7 @@ def is_hidden(file):
 
     Parameters
     ----------
-    file : String
+    file_name : String
         Target file (required)
 
     Returns
@@ -20,8 +20,8 @@ def is_hidden(file):
     Boolean
         True if a file is hidden, False elsewhere
     """
-    if type(file) != str:
-        raise TypeError("Type of file name must be <class 'str'>, but {}".format(type(file)))
+    if type(file_name) != str:
+        raise TypeError("Type of file name must be <class 'str'>, but {}".format(type(file_name)))
 
     return True if file.startswith('.') else False
 
