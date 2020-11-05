@@ -23,7 +23,7 @@ def is_hidden(file_name):
     if type(file_name) != str:
         raise TypeError("Type of file name must be <class 'str'>, but {}".format(type(file_name)))
 
-    return True if file.startswith('.') else False
+    return True if file_name.startswith('.') else False
 
 
 def extract_directory(root_dir):
