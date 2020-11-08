@@ -1,0 +1,14 @@
+Metadata-Version: 1.1
+Name: hjben-python-utils
+Version: 1.0.1
+Summary: Some utilities for data analysis with python
+Home-page: https://github.com/hjben/python-utils
+Author: hjben
+Author-email: hj.ben.kim@gmail.com
+License: MIT
+Description: # python-utils
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Natural Language :: English
