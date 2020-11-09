@@ -2,8 +2,8 @@ import setuptools
 from pathlib import Path
 
 setuptools.setup(
-    name="hjben-python-utils",
-    version="1.0.1",
+    name="ben-python-utils",
+    version="1.0.0",
     license='MIT',
     author="hjben",
     author_email="hj.ben.kim@gmail.com",
