@@ -57,3 +57,43 @@ def merge_df(root_dir):
         [pd.read_csv(root_dir + file) for file in os.listdir(root_dir) if file.split('.')[-1].find('csv') > -1] +
         [pd.read_excel(root_dir + file) for file in os.listdir(root_dir) if file.split('.')[-1].find('xls') > -1]
     )
+
+
+def convert_str_columns_to_datetime(df, columns, datetime_format):
+    """
+        Convert a str-formatted DataFrame column to datetime type
+
+        Raises
+        ------
+        TypeError
+            If the df is not a DataFrame.
+            If column type is not a str or list.
+
+        Parameters
+        ----------
+        df : DataFrame
+            Target DataFrame (required)
+
+        columns : String or List
+            Target column(s) of DataFrame (required)
+
+        datetime_format : String
+            Datetime format to convert (required)
+
+        Returns
+        -------
+        DataFrame
+            Column-converted DataFrame
+    """
+    if type(df) != pd.core.frame.DataFrame:
+        raise TypeError("Type of target df name must be <class 'pandas.core.frame.DataFrame'>, but {}".format(type(df)))
+
+    if type(columns) == str:
+        columns = [columns]
+    elif type(columns) != list:
+        raise TypeError("Type of target df name must be <class 'str'> or <class 'list'>, but {}".format(type(df)))
+
+    for column in columns:
+        df.loc[:, column] = pd.to_datetime(df[column], format=datetime_format)
+
+    return df

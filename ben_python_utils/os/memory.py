@@ -14,7 +14,6 @@ def memory_check():
         -------
         None
     """
-
     # general RAM usage
     print(f"memory_usage_percent: {dict(psutil.virtual_memory()._asdict())['percent']}%")
 
