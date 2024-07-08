@@ -1,6 +1,38 @@
 import datetime
 
 
+def check_dict_value_type(check_dict, check_type, dict_keys=None):
+    """
+        Check type of dictionary value.
+
+        Raises
+        ------
+        TypeError
+            If the value of dictionary is not same with given type.
+
+        Parameters
+        ----------
+        check_dict: Dictionary
+            Dictionary object to check (required)
+
+        check_type: Type object
+            Target type to check (required)
+
+        key: Object
+            Dictionary key to check
+            If not given, all keys will be used in a dictionary
+
+        Returns
+        -------
+        None
+    """
+    if not dict_keys:
+        dict_keys = check_dict.keys()
+
+    for key in dict_keys:
+        if type(check_dict[key]) != check_type:
+            raise TypeError("Type of {} must be <class {}>, but {}".format(key, type, type(check_dict[key])))
+
 def convert_string_to_timedelta(string):
     """
         Convert string to time delta.
