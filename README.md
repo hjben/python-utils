@@ -1,2 +1,2 @@
 # python-utils
-Some utilities for data analysis with python
+Some personal utilities using Python
