@@ -1,31 +1,29 @@
 import oracledb
 import pandas as pd
 
-from file import check_dict_value_type
+from ..processing.basic_process import check_dict_value_type
 
-def get_oracle_connection(param_dict):
+def get_oracle_connection(oracle_info: dict):
     """
         Set connection for oracle database.
 
         Parameters
         ----------
-        param_dict : Dictionary
+        oracle_info : Dictionary
             Parameter dictionary for oracle database (required)
-            Keys to be included: user, password, ip, port, service and Values must be given by string variable
+            Keys to be included: USER, PASSWORD, ip, PORT, SERVICE and Values must be given by string variable
             
             e.g.
-            {'user': 'user', 'password': 'password', 'ip': '127.0.0.1', 'port': '3306', service: 'service'}
+            {'USER': 'user', 'PASSWORD': 'password', 'IP': '127.0.0.1', 'PORT': '3306', SERVICE: 'service'}
 
         Returns
         -------
         oracledb.connect
             OracleDB connection object
     """
-    for name, value in param_dict.items():
-        if type(param_dict[name]) != str:
-            raise TypeError("Type of {} must be <class 'str'>, but {}".format(name, type(value)))
+    check_dict_value_type(oracle_info, str)
     
-    return oracledb.connect(user=param_dict['user'], password=param_dict['password'], dsn=f"{param_dict['ip']}:{param_dict['port']}/{param_dict['service']}")
+    return oracledb.connect(user=oracle_info['USER'], password=oracle_info['PASSWORD'], dsn=f"{oracle_info['IP']}:{oracle_info['PORT']}/{oracle_info['SERVICE']}")
 
 def get_dataframe_from_oracle(sql, conn):
         """
