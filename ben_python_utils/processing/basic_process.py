@@ -8,7 +8,7 @@ def check_dict_value_type(check_dict, check_type, dict_keys=None):
         Raises
         ------
         TypeError
-            If the value of dictionary is not same with given type.
+            If the value of dictionary is not same with the given type.
 
         Parameters
         ----------
@@ -20,7 +20,7 @@ def check_dict_value_type(check_dict, check_type, dict_keys=None):
 
         key: Object
             Dictionary key to check
-            If not given, all keys will be used in a dictionary
+            If not given, all keys will be used in the target dictionary
 
         Returns
         -------
