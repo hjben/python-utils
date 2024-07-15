@@ -75,7 +75,7 @@ def convert_string_to_timedelta(string):
     return datetime.timedelta(days, total_sec)
 
 
-def get_split_index(data, split_n):
+def get_split_index(data, split_n: int):
     """
         Get even-split indexes for a list-like object.
 
@@ -98,9 +98,33 @@ def get_split_index(data, split_n):
             Index list to split data
     """
     if type(split_n) != int:
-        raise TypeError("Type of target directory name must be <class 'int'>, but {}".format(type(split_n)))
+        raise TypeError("Type of split_n must be <class 'int'>, but {}".format(type(split_n)))
 
     if isinstance(data, dict):
         return [int(len(list(data.keys())) * (i + 1) / split_n) for i in range(split_n - 1)]
     else:
         return [int(len(data) * (i + 1) / split_n) for i in range(split_n - 1)]
+    
+def get_reversed_list(original_list: list):
+    """
+        Get reversed list object.
+
+        Raises
+        ------
+        TypeError
+            If the original_list is not an list.
+
+        Parameters
+        ----------
+        original_list : List before reversed
+            Target list (required)
+
+        Returns
+        -------
+        List
+            List after reversed
+    """
+    if type(original_list)!=list():
+        raise TypeError("Type of target data must be <class 'loist'>, but {}".format(type(original_list)))
+    
+    return original_list[::-1]
