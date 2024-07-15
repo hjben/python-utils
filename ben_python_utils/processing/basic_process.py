@@ -97,7 +97,7 @@ def get_split_index(data, split_n: int):
         List
             Index list to split data
     """
-    if type(split_n) != int:
+    if type(split_n)!=int:
         raise TypeError("Type of split_n must be <class 'int'>, but {}".format(type(split_n)))
 
     if isinstance(data, dict):
@@ -105,18 +105,18 @@ def get_split_index(data, split_n: int):
     else:
         return [int(len(data) * (i + 1) / split_n) for i in range(split_n - 1)]
     
-def get_reversed_list(original_list: list):
+def get_reversed_list(data):
     """
-        Get reversed list object.
+        Get reversed list-like object.
 
         Raises
         ------
         TypeError
-            If the original_list is not an list.
+            If the data is not an list.
 
         Parameters
         ----------
-        original_list : List before reversed
+        data : List before reversed
             Target list (required)
 
         Returns
@@ -124,7 +124,7 @@ def get_reversed_list(original_list: list):
         List
             List after reversed
     """
-    if type(original_list)!=list():
-        raise TypeError("Type of target data must be <class 'loist'>, but {}".format(type(original_list)))
+    if type(data)!=list and type(data)!=tuple:
+        raise TypeError("Type of target data must be <class 'list'> or <class 'tuple'>, but {}".format(type(data)))
     
-    return original_list[::-1]
+    return data[::-1]
