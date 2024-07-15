@@ -112,7 +112,7 @@ def get_reversed_list(data):
         Raises
         ------
         TypeError
-            If the data is not an list.
+            If the data is not a list-like.
 
         Parameters
         ----------
