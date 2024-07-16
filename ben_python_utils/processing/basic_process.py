@@ -105,7 +105,7 @@ def get_split_index(data, split_n: int):
     else:
         return [int(len(data) * (i + 1) / split_n) for i in range(split_n - 1)]
     
-def get_reversed_list(data):
+def get_reversed_object(data):
     """
         Get reversed list-like object.
 
@@ -117,14 +117,14 @@ def get_reversed_list(data):
         Parameters
         ----------
         data : List before reversed
-            Target list (required)
+            Target object (required)
 
         Returns
         -------
-        List
-            List after reversed
+        List-like object
+            Object after reversed
     """
-    if type(data)!=list and type(data)!=tuple:
+    if type(data)!=list and type(data)!=tuple and type(data)!=str:
         raise TypeError("Type of target data must be <class 'list'> or <class 'tuple'>, but {}".format(type(data)))
     
     return data[::-1]
