@@ -107,7 +107,7 @@ def get_split_index(data, split_n: int):
 
 def filter_duplicated_word(text, sep=' ', reverse=True):
     """
-        Remove duplicated words in a string
+        Remove duplicated words in a string.
 
         Raises
         ------
@@ -123,7 +123,7 @@ def filter_duplicated_word(text, sep=' ', reverse=True):
             Word seperator. Basic value is ' ' (blank)
 
         reverse : Boolean
-            Where to start removing duplicate words.
+            Decide the direction to removing duplicate words
             True if remove barkward and False if forward
 
         Returns
