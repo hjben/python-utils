@@ -104,27 +104,44 @@ def get_split_index(data, split_n: int):
         return [int(len(list(data.keys())) * (i + 1) / split_n) for i in range(split_n - 1)]
     else:
         return [int(len(data) * (i + 1) / split_n) for i in range(split_n - 1)]
-    
-def get_reversed_object(data):
+
+def filter_duplicated_word(text, sep=' ', reverse=True):
     """
-        Get reversed list-like object.
+        Remove duplicated words in a string
 
         Raises
         ------
         TypeError
-            If the data is not a list-like.
+            If the data is not a string.
 
         Parameters
         ----------
-        data : List before reversed
-            Target object (required)
+        text : String
+            Target string to remove duplicates (required)
+
+        sep : String
+            Word seperator. Basic value is ' ' (blank)
+
+        reverse : Boolean
+            Where to start removing duplicate words.
+            True if remove barkward and False if forward
 
         Returns
         -------
-        List-like object
-            Object after reversed
+        String
+            String with unique words
     """
-    if type(data)!=list and type(data)!=tuple and type(data)!=str:
-        raise TypeError("Type of target data must be <class 'list'> or <class 'tuple'>, but {}".format(type(data)))
+    if type(text)!=str:
+        raise TypeError("Type of target text must be <class 'str'>, but {}".format(type(text)))
     
-    return data[::-1]
+    if reverse:
+        tmp_list = text.split(sep)[::-1]
+        for word in tmp_list:
+            word_cnt = tmp_list.count(word)
+            if word_cnt > 1:
+                for i in range(word_cnt-1):
+                    tmp_list.pop(tmp_list.index(word))
+                    
+        return sep.join(tmp_list[::-1])
+    else:
+        return sep.join(list(set(text.split(sep))))
