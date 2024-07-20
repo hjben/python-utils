@@ -74,7 +74,6 @@ def convert_string_to_timedelta(string):
 
     return datetime.timedelta(days, total_sec)
 
-
 def get_split_index(data, split_n: int):
     """
         Get even-split indexes for a list-like object.
@@ -132,7 +131,7 @@ def filter_duplicated_word(text, sep=' ', reverse=True):
             String with unique words
     """
     if type(text)!=str:
-        raise TypeError("Type of target text must be <class 'str'>, but {}".format(type(text)))
+        raise TypeError("Type of the target text must be <class 'str'>, but {}".format(type(text)))
     
     if reverse:
         tmp_list = text.split(sep)[::-1]
@@ -145,3 +144,34 @@ def filter_duplicated_word(text, sep=' ', reverse=True):
         return sep.join(tmp_list[::-1])
     else:
         return sep.join(list(set(text.split(sep))))
+
+def element_count(data):
+    """
+        Calculate the element count of an iterable object.
+
+        Raises
+        ------
+        TypeError
+            If the data is not a iterable object.
+
+        Parameters
+        ----------
+        data : Iterable object
+            Target data to count element (required)
+
+        Returns
+        -------
+        Dictionary
+            A dicationary with key as an element and value as the count of them
+    """
+    if not hasattr(data, '__iter__'):
+        raise TypeError("{} is not iterable".format(type(data)))
+    
+    cnt_dict = dict()
+    for element in data:
+        try:
+            cnt_dict[element] += 1
+        except KeyError:
+            cnt_dict[element] = 1
+        
+    return cnt_dict
