@@ -169,9 +169,9 @@ def element_count(data):
     
     cnt_dict = dict()
     for element in data:
-        try:
+        if element in cnt_dict.keys():
             cnt_dict[element] += 1
-        except KeyError:
+        else:
             cnt_dict[element] = 1
         
     return cnt_dict
