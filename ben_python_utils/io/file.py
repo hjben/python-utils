@@ -1,4 +1,5 @@
 import os
+import shutil
 
 
 def is_hidden(file_name):
@@ -25,7 +26,6 @@ def is_hidden(file_name):
 
     return True if file_name.startswith('.') else False
 
-
 def extract_directory(root_dir):
     """
     Get directory list in a directory.
@@ -50,7 +50,6 @@ def extract_directory(root_dir):
 
     return [file for file in os.listdir(root_dir) if os.path.isdir(root_dir + file)]
 
-
 def extract_file(root_dir):
     """
     Get file list in a directory.
@@ -74,3 +73,21 @@ def extract_file(root_dir):
         raise TypeError("Type of target directory name must be <class 'str'>, but {}".format(type(root_dir)))
 
     return [file for file in os.listdir(root_dir) if os.path.isfile(root_dir + file)]
+
+def safe_rmtree(path):
+    """
+    Remove folder with exception handling.
+
+    Parameters
+    ----------
+    path : String
+        Target directory (required)
+
+    Returns
+    -------
+    None
+    """
+    try:
+        shutil.rmtree(path)
+    except FileNotFoundError:
+        print(f"Folder not found: {path}")
