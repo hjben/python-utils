@@ -1,7 +1,7 @@
 import datetime
 
 
-def check_dict_value_type(check_dict, check_type, dict_keys=None):
+def check_dict_value_type(check_dict: dict, check_type, dict_keys=None):
     """
         Check type of dictionary value.
 
@@ -33,7 +33,7 @@ def check_dict_value_type(check_dict, check_type, dict_keys=None):
         if type(check_dict[key]) != check_type:
             raise TypeError("Type of {} must be <class {}>, but {}".format(key, type, type(check_dict[key])))
 
-def convert_string_to_timedelta(string):
+def convert_string_to_timedelta(string: str):
     """
         Convert string to time delta.
 
@@ -52,9 +52,6 @@ def convert_string_to_timedelta(string):
         datetime.timedelta
             Converted timedelta object
     """
-    if not string:
-        raise ValueError('{} is not a valid timedelta string'.format(string))
-
     # get days
     tmp = string.split('.')
     if len(tmp) == 2:
@@ -96,15 +93,12 @@ def get_split_index(data, split_n: int):
         List
             Index list to split data
     """
-    if type(split_n)!=int:
-        raise TypeError("Type of split_n must be <class 'int'>, but {}".format(type(split_n)))
-
     if isinstance(data, dict):
         return [int(len(list(data.keys())) * (i + 1) / split_n) for i in range(split_n - 1)]
     else:
         return [int(len(data) * (i + 1) / split_n) for i in range(split_n - 1)]
 
-def filter_duplicated_word(text, sep=' ', reverse=True):
+def filter_duplicated_word(text: str, sep=' ', reverse=False):
     """
         Remove duplicated words in a string.
 
@@ -130,9 +124,6 @@ def filter_duplicated_word(text, sep=' ', reverse=True):
         String
             String with unique words
     """
-    if type(text)!=str:
-        raise TypeError("Type of the target text must be <class 'str'>, but {}".format(type(text)))
-    
     if reverse:
         tmp_list = text.split(sep)[::-1]
         for word in tmp_list:
