@@ -75,11 +75,6 @@ def get_split_index(data, split_n: int):
     """
         Get even-split indexes for a list-like object.
 
-        Raises
-        ------
-        TypeError
-            If the split_n is not an int.
-
         Parameters
         ----------
         data : List-like objects
@@ -101,11 +96,6 @@ def get_split_index(data, split_n: int):
 def filter_duplicated_word(text: str, sep=' ', reverse=False):
     """
         Remove duplicated words in a string.
-
-        Raises
-        ------
-        TypeError
-            If the data is not a string.
 
         Parameters
         ----------
