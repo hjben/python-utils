@@ -52,7 +52,7 @@ def extract_file(root_dir: str):
 
 def expand_relative_path(path: str):
     """
-    Expand relative path and convert to absolute path
+    Expand relative path and convert to absolute path.
 
     Parameters
     ----------
