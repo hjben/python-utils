@@ -2,14 +2,9 @@ import os
 import shutil
 
 
-def is_hidden(file_name):
+def is_hidden(file_name: str):
     """
-    Get boolean if a file (or a directory) is hidden or not, with linux based OS.
-
-    Raises
-    ------
-    TypeError
-        If the input data is not a string.
+    Get boolean if a file is hidden or not, with linux based OS.
 
     Parameters
     ----------
@@ -21,19 +16,11 @@ def is_hidden(file_name):
     Boolean
         True if a file is hidden, False elsewhere
     """
-    if type(file_name) != str:
-        raise TypeError("Type of file name must be <class 'str'>, but {}".format(type(file_name)))
-
     return True if file_name.startswith('.') else False
 
-def extract_directory(root_dir):
+def extract_directory(root_dir: str):
     """
     Get directory list in a directory.
-
-    Raises
-    ------
-    TypeError
-        If the input data is not a string.
 
     Parameters
     ----------
@@ -45,19 +32,11 @@ def extract_directory(root_dir):
     List
         Extracted directory list
     """
-    if type(root_dir) != str:
-        raise TypeError("Type of target directory name must be <class 'str'>, but {}".format(type(root_dir)))
-
     return [file for file in os.listdir(root_dir) if os.path.isdir(root_dir + file)]
 
-def extract_file(root_dir):
+def extract_file(root_dir: str):
     """
     Get file list in a directory.
-
-    Raises
-    ------
-    TypeError
-        If the input data is not a string.
 
     Parameters
     ----------
@@ -69,10 +48,32 @@ def extract_file(root_dir):
     List
         Extracted file list
     """
-    if type(root_dir) != str:
-        raise TypeError("Type of target directory name must be <class 'str'>, but {}".format(type(root_dir)))
-
     return [file for file in os.listdir(root_dir) if os.path.isfile(root_dir + file)]
+
+def expand_relative_path(path: str):
+    """
+    Expand relative path and convert to absolute path
+
+    Parameters
+    ----------
+    path : String
+        Path to expand (required)
+
+    Returns
+    -------
+    String
+        Normalized absolute path
+    """
+    if path.startswith("~"):
+        path = os.path.expanduser(path)
+
+    elif path.startswith(os.path.pardir):
+        path = os.path.join(os.path.abspath(os.path.pardir), path[len(os.path.pardir)+1:])
+
+    elif path.startswith(os.path.curdir):
+        path = os.path.join(os.path.abspath(os.path.curdir), path[len(os.path.curdir)+1:])
+    
+    return os.path.normcase(path)
 
 def safe_rmtree(path):
     """
