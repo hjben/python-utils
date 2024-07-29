@@ -3,11 +3,11 @@ from pathlib import Path
 
 setuptools.setup(
     name="ben-python-utils",
-    version="1.0.0",
+    version="1.0",
     license='MIT',
     author="hjben",
     author_email="hj.ben.kim@gmail.com",
-    description="Some utilities for data analysis with python",
+    description="Some personal utilities using Python",
     long_description=Path("README.md").read_text(encoding="utf-8"),
     url="https://github.com/hjben/python-utils",
     packages=setuptools.find_packages(),
