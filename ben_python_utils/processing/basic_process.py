@@ -1,3 +1,13 @@
+"""
+This module provide some utilities to manipulate with basic data-structures of python.
+
+Functions:
+    - check_dict_value_type: check the values' type of a dictionary.
+    - convert_string_to_timedelta: convert a string into timedelta object.
+    - get_split_index: provide even-split indexes for a list-like object.
+    - filter_duplicated_word: remove duplicated words in a string.
+    - element_count: calculate the element count of an iterable object.
+"""
 import datetime
 
 

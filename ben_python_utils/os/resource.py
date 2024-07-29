@@ -1,14 +1,21 @@
+"""
+This module include some utilities about OS resources.
+
+Functions:
+    - memory_check: check the memory usage.
+"""
 import os
 import psutil
 
 
 def memory_check():
     """
-        Check memory usage of the OS system.
+        Check the memory usage.
         Prints general RAM usage percent and current RAM usage as KB.
 
         Parameters
         ----------
+        None
 
         Returns
         -------

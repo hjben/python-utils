@@ -1,3 +1,11 @@
+"""
+This module provide some utilities about Oracle database I/O.
+
+Functions:
+    - get_oracle_connection: set a connection with Oracle database.
+    - get_dataframe_from_oracle: query OracleDB with given SQL statement.
+    - close_connection: close connection from a oracle database.
+"""
 import oracledb
 import pandas as pd
 
@@ -5,7 +13,7 @@ from ..processing.basic_process import check_dict_value_type
 
 def get_oracle_connection(oracle_info: dict):
     """
-        Set connection for oracle database.
+        Set a connection with Oracle database.
 
         Parameters
         ----------
@@ -57,7 +65,7 @@ def get_dataframe_from_oracle(sql, conn):
 
 def close_connection(conn_object):
     """
-        Close connection for oracle database.
+        Close connection from a Oracle database.
 
         Parameters
         ----------

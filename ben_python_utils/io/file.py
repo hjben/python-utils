@@ -1,3 +1,13 @@
+"""
+This module provide some utilities about file I/O.
+
+Functions:
+    - is_hidden: check if a file is hidden or not.
+    - extract_directory: extract directory list in a directory.
+    - extract_file: extract file list in a directory.
+    - expand_relative_path: expand relative path and convert into absolute path.
+    - safe_rmtree: remove folder with exception handling.
+"""
 import os
 import shutil
 
@@ -52,7 +62,7 @@ def extract_file(root_dir: str):
 
 def expand_relative_path(path: str):
     """
-    Expand relative path and convert to absolute path.
+    Expand relative path and convert into absolute path.
 
     Parameters
     ----------

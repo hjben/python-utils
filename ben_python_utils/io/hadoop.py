@@ -1,3 +1,14 @@
+"""
+This module provide some utilities about Hadoop Ecosystem I/O.
+
+Functions:
+    - get_hdfs_url: create a URL of HDFS api form.
+    - extract_directory: extract directory list in a directory.
+    - upload_hdfs_file: upload a file into HDFS system.
+    - download_hdfs_file: download files from HDFS system.
+    - get_hive_connection: set a connection with Hive database.
+    - get_dataframe_from_hive: query Hive DB with given HiveQL statement.
+"""
 import os
 import time
 import requests
@@ -37,7 +48,7 @@ def get_hdfs_url(hadoop_info, hdfs_dir_path: str, op: str):
 
 def upload_hdfs_file(hadoop_info: dict, hdfs_dir_path: str, upload_data):
     """
-        Upload a file to HDFS system.
+        Upload a file into HDFS system.
 
         Parameters
         ----------
@@ -123,7 +134,7 @@ def download_hdfs_file(hadoop_info: dict, hdfs_dir_path: str, local_dir_path: st
 
 def get_hive_connection(hive_info: dict, hive_config: dict):
     """
-        Set connection for hive database.
+        Set a connection with Hive database.
 
         Parameters
         ----------
@@ -162,7 +173,7 @@ def get_hive_connection(hive_info: dict, hive_config: dict):
 
 def get_dataframe_from_hive(hive_ql: str, conn):
     """
-    Querys OracleDB with given SQL statement and returns data with pd.DataFrame form.
+    Querys Hive datadase with given HiveQL statement and returns data with pd.DataFrame form.
 
     Parameters
     ----------

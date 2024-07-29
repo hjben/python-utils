@@ -1,10 +1,23 @@
+"""
+This module provide some utilities to manipulate with pandas dataframe.
+
+Functions:
+    - check_df: check if the dataframe has the DataFrame type.
+    - check_column: Check if the input columns have a valid type.
+    - get_all_duplicate: get all duplicated rows.
+    - merge_df: load and merge all xls(xlsm, xlsx) or csv files in a directory.
+    - element_count: calculate the element count of an iterable object.
+    - convert_str_column_to_datetime: convert a string-formatted DataFrame column into datetime type.
+    - generate_dummy: generate dummies from some columns.
+    - drop_column: drop some columns from a DataFrame.
+"""
 import os
 import pandas as pd
 
 
 def check_df(df):
     """
-    Check if the input dataframe has valid type
+    Check if the input dataframe has a valid type
 
     Raises
     ------
@@ -43,9 +56,9 @@ def check_column(columns):
     List
         Columns list
     """
-    if type(columns) == str:
+    if type(columns)==str:
         columns = [columns]
-    elif type(columns) != list:
+    elif type(columns)!=list:
         raise TypeError("Type of target column name must be <class 'str'> or <class 'list'>, but {}".format(type(columns)))
 
     return columns
@@ -71,7 +84,7 @@ def get_all_duplicate(df, column_list):
     Returns
     -------
     DataFrame
-        DataFrame with the rows that the target columns are duplicated.
+        DataFrame with the rows that the target columns are duplicated
     """
     if not df:
         raise ValueError('DataFrame is empty')
@@ -110,7 +123,7 @@ def merge_df(root_dir):
 
 def convert_str_column_to_datetime(df, columns, datetime_format):
     """
-        Convert a str-formatted DataFrame column to datetime type
+        Convert a string-formatted DataFrame column into datetime type.
 
         Raises
         ------
@@ -143,7 +156,7 @@ def convert_str_column_to_datetime(df, columns, datetime_format):
 
 def generate_dummy(df, columns):
     """
-        Generate dummy from some columns
+        Generate dummy from some columns.
 
         Raises
         ------
