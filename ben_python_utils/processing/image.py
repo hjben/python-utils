@@ -12,7 +12,7 @@ import SimpleITK as sitk
 from PIL import Image
 from .basic import check_type_list_element
 
-def extract_dcm_meta(dcm_path: str, meta_list: list, additional_meta_list=None):
+def extract_dcm_meta(dcm_path: str, meta_list: list, additional_meta_list=None) -> dict:
     """
         Load a dicom image and extract given meta information.
 

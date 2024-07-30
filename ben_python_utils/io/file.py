@@ -12,7 +12,7 @@ import os
 import shutil
 
 
-def is_hidden(file_name: str):
+def is_hidden(file_name: str) -> bool:
     """
     Get boolean if a file is hidden or not, with linux based OS.
 
@@ -28,7 +28,7 @@ def is_hidden(file_name: str):
     """
     return True if file_name.startswith('.') else False
 
-def extract_directory(root_dir: str):
+def extract_directory(root_dir: str) -> list:
     """
     Get directory list in a directory.
 
@@ -44,7 +44,7 @@ def extract_directory(root_dir: str):
     """
     return [file for file in os.listdir(root_dir) if os.path.isdir(root_dir + file)]
 
-def extract_file(root_dir: str):
+def extract_file(root_dir: str) -> list:
     """
     Get file list in a directory.
 
@@ -60,7 +60,7 @@ def extract_file(root_dir: str):
     """
     return [file for file in os.listdir(root_dir) if os.path.isfile(root_dir + file)]
 
-def expand_relative_path(path: str):
+def expand_relative_path(path: str) -> str:
     """
     Expand relative path and convert into absolute path.
 
@@ -85,7 +85,7 @@ def expand_relative_path(path: str):
     
     return os.path.normcase(path)
 
-def safe_rmtree(path):
+def safe_rmtree(path: str):
     """
     Remove folder with exception handling.
 

@@ -14,8 +14,7 @@ Functions:
 import os
 import pandas as pd
 
-
-def check_df(df):
+def check_df(df: pd.DataFrame):
     """
     Check if the input dataframe has a valid type
 
@@ -37,7 +36,7 @@ def check_df(df):
         raise TypeError("Type of target df name must be <class 'pandas.core.frame.DataFrame'>, but {}".format(type(df)))
 
 
-def check_column(columns):
+def check_column(columns) -> list:
     """
     Check if the input columns have valid type
 
@@ -64,7 +63,7 @@ def check_column(columns):
     return columns
 
 
-def get_all_duplicate(df, column_list):
+def get_all_duplicate(df: pd.DataFrame, column_list: list) -> pd.DataFrame:
     """
     Get all duplicated rows.
     Extract all rows that the return value of 'DataFrame.duplicated' is true.
@@ -86,13 +85,13 @@ def get_all_duplicate(df, column_list):
     DataFrame
         DataFrame with the rows that the target columns are duplicated
     """
-    if not df:
+    if len(df)==0:
         raise ValueError('DataFrame is empty')
 
     return df[df.duplicated(column_list) | df.duplicated(column_list, keep='last')]
 
 
-def merge_df(root_dir):
+def merge_df(root_dir: str) -> pd.DataFrame:
     """
     Load and merge all xls(xlsm, xlsx) or csv files in a directory.
     Folders in the directory will be ignored.
@@ -111,17 +110,14 @@ def merge_df(root_dir):
     -------
     DataFrame
         Merged dataframe
-    """
-    if type(root_dir) != str:
-        raise TypeError("Type of target directory name must be <class 'str'>, but {}".format(type(root_dir)))
-    
+    """    
     return pd.concat(
         [pd.read_csv(root_dir + file) for file in os.listdir(root_dir) if file.split('.')[-1].find('csv') > -1] +
         [pd.read_excel(root_dir + file) for file in os.listdir(root_dir) if file.split('.')[-1].find('xls') > -1]
     )
 
 
-def convert_str_column_to_datetime(df, columns, datetime_format):
+def convert_str_column_to_datetime(df: pd.DataFrame, columns, datetime_format: str) -> pd.DataFrame:
     """
         Convert a string-formatted DataFrame column into datetime type.
 
@@ -154,7 +150,7 @@ def convert_str_column_to_datetime(df, columns, datetime_format):
     return df
 
 
-def generate_dummy(df, columns):
+def generate_dummy(df: pd.DataFrame, columns) -> pd.DataFrame:
     """
         Generate dummy from some columns.
 
@@ -185,7 +181,7 @@ def generate_dummy(df, columns):
     return dummy_df
 
 
-def drop_column(df, columns):
+def drop_column(df: pd.DataFrame, columns) -> pd.DataFrame:
     """
         Drop some columns from a DataFrame
 

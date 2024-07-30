@@ -14,7 +14,7 @@ import copy
 import datetime
 
 
-def check_type_dict_value(check_dict: dict, check_type, dict_keys=None):
+def check_type_dict_value(check_dict: dict, check_type: type, dict_keys=None) -> bool:
     """
         Check type of dictionary value.
 
@@ -49,7 +49,7 @@ def check_type_dict_value(check_dict: dict, check_type, dict_keys=None):
     
     return True
         
-def check_type_list_element(check_list: list, check_type, index_list=None):
+def check_type_list_element(check_list: list, check_type: type, index_list=None) -> bool:
     """
         Check type of list element.
 
@@ -92,7 +92,7 @@ def check_type_list_element(check_list: list, check_type, index_list=None):
         
     return True
         
-def convert_type_list_element(target_list, convert_type):
+def convert_type_list_element(target_list: list, convert_type: type) -> bool:
     """
         Convert type of all elements to given type.
 
@@ -116,7 +116,7 @@ def convert_type_list_element(target_list, convert_type):
 
     return converted_list
 
-def convert_string_to_timedelta(string: str):
+def convert_string_to_timedelta(string: str) -> datetime.timedelta:
     """
         Convert string to time delta.
 
@@ -154,7 +154,7 @@ def convert_string_to_timedelta(string: str):
 
     return datetime.timedelta(days, total_sec)
 
-def get_split_index(data, split_n: int):
+def get_split_index(data, split_n: int) -> list:
     """
         Get even-split indexes for a list-like object.
 
@@ -176,7 +176,7 @@ def get_split_index(data, split_n: int):
     else:
         return [int(len(data) * (i + 1) / split_n) for i in range(split_n - 1)]
 
-def filter_duplicated_word(text: str, sep=' ', reverse=False):
+def filter_duplicated_word(text: str, sep=' ', reverse=False) -> str:
     """
         Remove duplicated words in a string.
 
@@ -209,7 +209,7 @@ def filter_duplicated_word(text: str, sep=' ', reverse=False):
     else:
         return sep.join(list(set(text.split(sep))))
 
-def element_count(data):
+def element_count(data) -> dict:
     """
         Calculate the element count of an iterable object.
 

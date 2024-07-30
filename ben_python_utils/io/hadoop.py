@@ -17,7 +17,7 @@ from pyhive import hive
 
 from ..processing.basic import check_type_dict_value
 
-def get_hdfs_url(hadoop_info, hdfs_dir_path: str, op: str):
+def get_hdfs_url(hadoop_info: dict, hdfs_dir_path: str, op: str) -> str:
     """
         Create URL of HDFS api form with composing informations.
 
@@ -46,7 +46,7 @@ def get_hdfs_url(hadoop_info, hdfs_dir_path: str, op: str):
     """
     return f"http://{hadoop_info['IP']}:{hadoop_info['PORT']}/webhdfs/v1{hdfs_dir_path}?op={op}&user.name={hadoop_info['USER']}&doas={hadoop_info['USER']}"
 
-def upload_hdfs_file(hadoop_info: dict, hdfs_dir_path: str, upload_data):
+def upload_hdfs_file(hadoop_info: dict, hdfs_dir_path: str, upload_data) -> str:
     """
         Upload a file into HDFS system.
 
@@ -173,7 +173,7 @@ def get_hive_connection(hive_info: dict, hive_config: dict):
     
     return hive.Connection(host=hive_info['IP'], port=hive_info['PORT'], username=hive_info['USER'], password=hive_info['PASSWORD'], auth='LDAP', configuration=hive_config)
 
-def get_dataframe_from_hive(hive_ql: str, conn):
+def get_dataframe_from_hive(hive_ql: str, conn: hive.Connection) -> pd.DataFrame:
     """
     Querys Hive datadase with given HiveQL statement and returns data with pd.DataFrame form.
 

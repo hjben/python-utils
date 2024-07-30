@@ -34,7 +34,7 @@ def get_oracle_connection(oracle_info: dict):
     
     return oracledb.connect(user=oracle_info['USER'], password=oracle_info['PASSWORD'], dsn=f"{oracle_info['IP']}:{oracle_info['PORT']}/{oracle_info['SERVICE']}")
 
-def get_dataframe_from_oracle(sql: str, conn):
+def get_dataframe_from_oracle(sql: str, conn: oracledb.Connection) -> pd.DataFrame:
         """
         Querys OracleDB with given SQL statement and returns data with pd.DataFrame form.
 
@@ -43,7 +43,7 @@ def get_dataframe_from_oracle(sql: str, conn):
         sql : String
             SQL statement to query (required)
 
-        conn: oracledb.connect
+        conn: oracledb.connection
             OracleDB connection object
             
         Returns:
@@ -61,7 +61,7 @@ def get_dataframe_from_oracle(sql: str, conn):
 
         return df
 
-def close_connection(conn_object):
+def close_connection(conn_object: oracledb.Connection):
     """
         Close connection from a Oracle database.
 
