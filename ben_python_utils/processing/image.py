@@ -3,11 +3,14 @@ This module provide some utilities to handle an image format.
 
 Functions:
     - extract_dcm_meta: extract given meta information from a dicom file.
+    - xray_normalize: add normalizing to a xray(grayscale) image.
     - dcm_to_png: convert a dicom format file to a png image.
 """
 import cv2
 import pydicom
 import SimpleITK as sitk
+
+import numpy as np
 
 from PIL import Image
 from .basic import check_type_list_element
@@ -47,7 +50,7 @@ def extract_dcm_meta(dcm_path: str, meta_list: list, additional_meta_list=None) 
         except KeyError:
             return None
 
-        if additional_meta_list is not None and type(additional_meta_list)==list:
+        if additional_meta_list is not None and isinstance(additional_meta_list, list):
             for additional_meta in additional_meta_list:
                 additional_meta = additional_meta.strip()
                 try:
@@ -58,6 +61,28 @@ def extract_dcm_meta(dcm_path: str, meta_list: list, additional_meta_list=None) 
         return None
 
     return meta_dict
+
+def xray_normalize(img: np.ndarray) -> np.ndarray:
+    """
+        Apply normalizing process to a xray(grayscale) image.
+
+        Parameters
+        ----------
+        img : np.ndarray
+            image array to normalize (required)
+
+        Returns
+        -------
+        np.ndarray
+            Normalized image array
+    """
+    img = np.clip(img, 0, np.percentile(img, 99))
+    img -= img.min()
+    img /= (img.max() - img.min())
+    img *= 255
+    img = img.astype(np.uint8)
+
+    return img
 
 def dcm_to_png(input_path: str, output_path: str):
     """
@@ -88,7 +113,7 @@ def dcm_to_png(input_path: str, output_path: str):
     pixel_array = sitk_img[0, :, :]
 
     ### could add any preprocessing procedures below
-    # 
+    # pixel_array = xray_normalize(pixel_array)
 
     png_img = Image.fromarray(pixel_array)
     png_img.save(output_path)

@@ -32,7 +32,7 @@ def check_df(df: pd.DataFrame):
     -------
     None
     """
-    if type(df) != pd.core.frame.DataFrame:
+    if not isinstance(df, pd.DataFrame):
         raise TypeError("Type of target df name must be <class 'pandas.core.frame.DataFrame'>, but {}".format(type(df)))
 
 
@@ -55,9 +55,9 @@ def check_column(columns) -> list:
     List
         Columns list
     """
-    if type(columns)==str:
+    if isinstance(columns, str):
         columns = [columns]
-    elif type(columns)!=list:
+    elif not isinstance(columns, list):
         raise TypeError("Type of target column name must be <class 'str'> or <class 'list'>, but {}".format(type(columns)))
 
     return columns

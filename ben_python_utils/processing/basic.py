@@ -37,13 +37,13 @@ def check_type_dict_value(check_dict: dict, check_type: type, dict_keys=None) ->
     """
     if dict_keys is None:
         target_key = check_dict.keys()
-    elif type(dict_keys)!=list:
+    elif not isinstance(dict_keys, list):
         target_key = [dict_keys]
     else:
         target_key = dict_keys
     
     for key in target_key:
-        if type(check_dict[key])!=check_type:
+        if not isinstance(check_dict[key], check_type):
             print("Type of target values must be {}, but some of value has {}".format(check_type, type(check_dict[key])))
             return False
     
@@ -76,7 +76,7 @@ def check_type_list_element(check_list: list, check_type: type, index_list=None)
     """
     if index_list is None:
         idx_list = range(len(check_list))
-    elif type(index_list)==int:
+    elif isinstance(index_list, int):
         idx_list = [index_list]
     else:
         idx_list = index_list
@@ -86,7 +86,7 @@ def check_type_list_element(check_list: list, check_type: type, index_list=None)
         raise ValueError(f'Invalid index found in index_list: {str(check_idx_list)}')
 
     for idx in idx_list:
-        if type(check_list[idx])!=check_type:
+        if not isinstance(check_list[idx], check_type):
             print("Type of target list elements must be {}, but some of element has {}".format(check_type, type(check_list[idx])))
             return False
         
@@ -111,7 +111,7 @@ def convert_type_list_element(target_list: list, convert_type: type) -> bool:
     """
     converted_list = copy.deepcopy(target_list)
     for i, element in enumerate(target_list):
-        if type(element)!=convert_type:
+        if not isinstance(element, convert_type):
             converted_list[i] = convert_type(element)
 
     return converted_list
