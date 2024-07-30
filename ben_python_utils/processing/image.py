@@ -1,5 +1,5 @@
 """
-This module provide some utilities to handel a image format.
+This module provide some utilities to handle an image format.
 
 Functions:
     - extract_dcm_meta: extract given meta information from a dicom file.
