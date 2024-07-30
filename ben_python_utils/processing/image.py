@@ -40,8 +40,8 @@ def extract_dcm_meta(dcm_path: str, meta_list: list, additional_meta_list=None) 
         Dictionary
             A key-value set of dicom meta
     """
-    if not check_type_list_element(meta_list, str) or not check_type_list_element(additional_meta_list, str):
-        raise TypeError("The all element types of (additional_)meta_list variable must be <class 'str'>")
+    if not check_type_list_element(meta_list, str):
+        raise TypeError("The all element types of meta_list variable must be <class 'str'>")
     
     try:
         dcm = pydicom.dcmread(dcm_path, force=True)
@@ -50,7 +50,7 @@ def extract_dcm_meta(dcm_path: str, meta_list: list, additional_meta_list=None) 
         except KeyError:
             return None
 
-        if additional_meta_list is not None and isinstance(additional_meta_list, list):
+        if isinstance(additional_meta_list, list) and not check_type_list_element(additional_meta_list, str):
             for additional_meta in additional_meta_list:
                 additional_meta = additional_meta.strip()
                 try:
