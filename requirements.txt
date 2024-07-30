@@ -1,4 +1,7 @@
-pandas
-psutil
+opencv-python
 oracledb
+pandas
+pillow
+psutil
 pyhive
+SimpleITK

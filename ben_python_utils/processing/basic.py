@@ -2,23 +2,21 @@
 This module provide some utilities to manipulate with basic data-structures of python.
 
 Functions:
-    - check_dict_value_type: check the values' type of a dictionary.
+    - check_type_dict_value: check the values' type of a dictionary.
+    - check_type_list_element: check the elements' type of a list.
+    - convert_type_list_element: convert type of all elements.
     - convert_string_to_timedelta: convert a string into timedelta object.
     - get_split_index: provide even-split indexes for a list-like object.
     - filter_duplicated_word: remove duplicated words in a string.
     - element_count: calculate the element count of an iterable object.
 """
+import copy
 import datetime
 
 
-def check_dict_value_type(check_dict: dict, check_type, dict_keys=None):
+def check_type_dict_value(check_dict: dict, check_type, dict_keys=None):
     """
         Check type of dictionary value.
-
-        Raises
-        ------
-        TypeError
-            If the value of dictionary is not same with the given type.
 
         Parameters
         ----------
@@ -28,20 +26,95 @@ def check_dict_value_type(check_dict: dict, check_type, dict_keys=None):
         check_type: Type object
             Target type to check (required)
 
-        key: Object
+        key: List or a hashable object
             Dictionary key to check
             If not given, all keys will be used in the target dictionary
 
         Returns
         -------
-        None
+        Boolean
+            False If any value of dictionary is not matches to the given type
     """
-    if not dict_keys:
-        dict_keys = check_dict.keys()
+    if dict_keys is None:
+        target_key = check_dict.keys()
+    elif type(dict_keys)!=list:
+        target_key = [dict_keys]
+    else:
+        target_key = dict_keys
+    
+    for key in target_key:
+        if type(check_dict[key])!=check_type:
+            print("Type of target values must be {}, but some of value has {}".format(check_type, type(check_dict[key])))
+            return False
+    
+    return True
+        
+def check_type_list_element(check_list: list, check_type, index_list=None):
+    """
+        Check type of list element.
 
-    for key in dict_keys:
-        if type(check_dict[key]) != check_type:
-            raise TypeError("Type of {} must be <class {}>, but {}".format(key, type, type(check_dict[key])))
+        Raises
+        ------
+        ValueError
+            If the index_list has any invalid index to check_list
+
+        Parameters
+        ----------
+        check_list: List
+            List object to check (required)
+
+        check_type: Type object
+            Target type to check (required)
+
+        index: List or Integer
+            Target index list or number to check
+
+        Returns
+        -------
+        Boolean
+            False If any value of list is not matches to the given type
+    """
+    if index_list is None:
+        idx_list = range(len(check_list))
+    elif type(index_list)==int:
+        idx_list = [index_list]
+    else:
+        idx_list = index_list
+
+    check_idx_list = [idx for idx in index_list if idx >= len(index_list)]
+    if len(check_idx_list) > 0:
+        raise ValueError(f'Invalid index found in index_list: {str(check_idx_list)}')
+
+    for idx in idx_list:
+        if type(check_list[idx])!=check_type:
+            print("Type of target list elements must be {}, but some of element has {}".format(check_type, type(check_list[idx])))
+            return False
+        
+    return True
+        
+def convert_type_list_element(target_list, convert_type):
+    """
+        Convert type of all elements to given type.
+
+        Parameters
+        ----------
+        target_list: List
+            List object to convert (required)
+
+        convert_type: Type object
+            Target type to convert (required)
+
+        Returns
+        -------
+        Boolean
+            False If any value of list is not matches to the given type
+    """
+    converted_list = copy.deepcopy(target_list)
+    for i, element in enumerate(target_list):
+        if type(element)!=convert_type:
+            converted_list[i] = convert_type(element)
+
+    return converted_list
 
 def convert_string_to_timedelta(string: str):
     """
@@ -50,7 +123,7 @@ def convert_string_to_timedelta(string: str):
         Raises
         ------
         TypeError
-            If the input is not a valid timedelta string.
+            If the input is not a valid timedelta string
 
         Parameters
         ----------
@@ -64,10 +137,10 @@ def convert_string_to_timedelta(string: str):
     """
     # get days
     tmp = string.split('.')
-    if len(tmp) == 2:
+    if len(tmp)==2:
         days = int(tmp[0])
         tmp = tmp[1]
-    elif len(tmp) == 1:
+    elif len(tmp)==1:
         days = 0
         tmp = tmp[0]
     else:
@@ -143,7 +216,7 @@ def element_count(data):
         Raises
         ------
         TypeError
-            If the data is not a iterable object.
+            If the data is not a iterable object
 
         Parameters
         ----------

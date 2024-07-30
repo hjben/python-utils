@@ -9,7 +9,7 @@ Functions:
 import oracledb
 import pandas as pd
 
-from ..processing.basic_process import check_dict_value_type
+from ..processing.basic import check_type_dict_value
 
 def get_oracle_connection(oracle_info: dict):
     """
@@ -29,11 +29,12 @@ def get_oracle_connection(oracle_info: dict):
         oracledb.connect
             OracleDB connection object
     """
-    check_dict_value_type(oracle_info, str)
+    if not check_type_dict_value(oracle_info, str):
+        return None
     
     return oracledb.connect(user=oracle_info['USER'], password=oracle_info['PASSWORD'], dsn=f"{oracle_info['IP']}:{oracle_info['PORT']}/{oracle_info['SERVICE']}")
 
-def get_dataframe_from_oracle(sql, conn):
+def get_dataframe_from_oracle(sql: str, conn):
         """
         Querys OracleDB with given SQL statement and returns data with pd.DataFrame form.
 
@@ -50,9 +51,6 @@ def get_dataframe_from_oracle(sql, conn):
         pd.DataFrame
             Result of query
         """
-        if type(sql) != str:
-            raise TypeError("Type of sql statement must be <class 'str'>, but {}".format(type(sql)))
-
         cursor = conn.cursor()
         cursor.execute(sql)
 

@@ -1,4 +1,5 @@
 __all__ = [
-    'df_process',
-    'basic_process'
+    'basic',
+    'dataframe',
+    'image'
 ]

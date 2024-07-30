@@ -15,7 +15,7 @@ import requests
 import pandas as pd
 from pyhive import hive
 
-from ..processing.basic_process import check_dict_value_type
+from ..processing.basic import check_type_dict_value
 
 def get_hdfs_url(hadoop_info, hdfs_dir_path: str, op: str):
     """
@@ -70,7 +70,9 @@ def upload_hdfs_file(hadoop_info: dict, hdfs_dir_path: str, upload_data):
         String
             Response string
     """
-    check_dict_value_type(hadoop_info, str)
+    if not check_type_dict_value(hadoop_info, str):
+        return None
+    
     url = get_hdfs_url(hdfs_dir_path + upload_data, 'CREATE') + "&overwrite=true"
     response = requests.put(url, data=open(upload_data, 'rb').read(), auth=(hadoop_info['USER'], hadoop_info['PASSWORD']), headers={'content-type': 'application/octet-stream'})
 
@@ -166,9 +168,9 @@ def get_hive_connection(hive_info: dict, hive_config: dict):
         pyhive.hive.Connection
             Hive connection object
     """
-    check_dict_value_type(hive_info, str)
-    check_dict_value_type(hive_config, str)
-        
+    if not check_type_dict_value(hive_info, str) or not check_type_dict_value(hive_config, str):
+        return None
+    
     return hive.Connection(host=hive_info['IP'], port=hive_info['PORT'], username=hive_info['USER'], password=hive_info['PASSWORD'], auth='LDAP', configuration=hive_config)
 
 def get_dataframe_from_hive(hive_ql: str, conn):
