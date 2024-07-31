@@ -2,13 +2,13 @@
 This module provide some utilities to manipulate with numpy array.
 
 Functions:
-    - describe_array: show summary informations.
+    - describe_array: print out summary informations.
 """
 import numpy as np
 
 def describe_array(arr:np.ndarray, name=None):
     """
-    Show summary informations of an array.
+    Describe summary informations of an array.
 
     Parameters
     ----------
