@@ -117,17 +117,17 @@ def xray_normalize(img: np.ndarray) -> np.ndarray:
 
     return img
 
-def dcm_to_png(input_path: str, output_path: str):
+def dcm_to_png(dcm_path: str, png_path: str):
     """
         Convert a dicom image to png and save it.
         Some preprocessing logics could be added in this function.
 
         Parameters
         ----------
-        input_path : String
+        dcm_path : String
             Dicom file path to convert (required)
 
-        input_path : String
+        png_path : String
             PNG file path to save (required)
 
         Returns
@@ -135,9 +135,9 @@ def dcm_to_png(input_path: str, output_path: str):
         None
     """
     try:
-        sitk_img = sitk.GetArrayFromImage(sitk.ReadImage(input_path, imageIO='GDCMImageIO'))
+        sitk_img = sitk.GetArrayFromImage(sitk.ReadImage(dcm_path, imageIO='GDCMImageIO'))
     except RuntimeError:
-        print(f"File can't be read: {input_path}")
+        print(f"File can't be read: {dcm_path}")
         return None
 
     if len(sitk_img.shape)==4:
@@ -149,4 +149,5 @@ def dcm_to_png(input_path: str, output_path: str):
     # pixel_array = xray_normalize(pixel_array)
 
     png_img = Image.fromarray(pixel_array)
-    png_img.save(output_path)
+    png_img.save(png_path)
+
