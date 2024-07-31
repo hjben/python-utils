@@ -15,6 +15,38 @@ import numpy as np
 from PIL import Image
 from .basic import check_type_list_element
 
+def draw_rectangle_box(img: np.ndarray, xmin: int, ymin: int, xmax: int, ymax: int, color=(0, 0, 255), thickness=2, comment_text=None) -> np.ndarray:
+    """
+        Add a rectangle and comment text in a image.
+
+        Parameters
+        ----------
+        img : np.ndarray
+            Image array to add (required)
+
+        xmin, ymin, xmax, ymax : int
+            2-dimentional coordinate values of two spot, minimum and maximum of rectangle (required)
+
+        color : tuple
+            The color of rectangle and text by BGR tuple form (required)
+
+        thickness : int
+            The line thickness of the rectangle (required)
+
+        comment_text : str
+            A comment string added to the rectangle with same color
+
+        Returns
+        -------
+        np.ndarray
+            Image array with rectangle
+    """
+    img = cv2.rectangle(img, (xmin, ymin), (xmax, ymax), color, thickness)
+    if comment_text is not None:
+        img = cv2.putText(img, str(comment_text), (xmin, ymin), cv2.FONT_ITALIC, 1, color, 2)
+    
+    return img
+
 def extract_dcm_meta(dcm_path: str, meta_list: list, additional_meta_list=None) -> dict:
     """
         Load a dicom image and extract given meta information.
