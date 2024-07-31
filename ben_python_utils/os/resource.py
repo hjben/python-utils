@@ -2,10 +2,31 @@
 This module include some utilities about OS resources.
 
 Functions:
+    - cpu_check: check the CPU usage.
     - memory_check: check the memory usage.
 """
 import os
 import psutil
+
+
+def cpu_check():
+    """
+        Check the CPU usage.
+        Prints the number of CPU core and general CPU usage percent.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+    """
+    # show CPU core count
+    print(f"# of cores: {psutil.cpu_count(logical=False)}")
+
+    # general CPU usage
+    print(f"CPU_usage_percent: {psutil.cpu_percent()}%")
 
 
 def memory_check():
