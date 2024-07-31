@@ -2,6 +2,7 @@
 This module provide some utilities to handle an image format.
 
 Functions:
+    - draw_rectangle_box: Add a rectangle box in a image.
     - extract_dcm_meta: extract given meta information from a dicom file.
     - xray_normalize: add normalizing to a xray(grayscale) image.
     - dcm_to_png: convert a dicom format file to a png image.
@@ -17,7 +18,7 @@ from .basic import check_type_list_element
 
 def draw_rectangle_box(img: np.ndarray, xmin: int, ymin: int, xmax: int, ymax: int, color=(0, 0, 255), thickness=2, comment_text=None) -> np.ndarray:
     """
-        Add a rectangle and comment text in a image.
+        Add a rectangle box and comment text in a image.
 
         Parameters
         ----------
