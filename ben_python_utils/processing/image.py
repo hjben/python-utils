@@ -18,29 +18,17 @@ from .basic import check_type_list_element
 
 def draw_rectangle_box(img: np.ndarray, xmin: int, ymin: int, xmax: int, ymax: int, color=(0, 0, 255), thickness=2, comment_text=None) -> np.ndarray:
     """
-        Add a rectangle box and comment text in a image.
+    Add a rectangle box and comment text in a image.
 
-        Parameters
-        ----------
-        img : np.ndarray
-            Image array to add (required)
+    Args:
+        img (np.ndarray): Image array to add
+        xmin, ymin, xmax, ymax (int): 2-dimentional coordinate values of two spot, minimum and maximum of rectangle
+        color (tuple, optional): The color of rectangle and text by BGR tuple form. Defaults to (0, 0, 255).
+        thickness (int, optional): The line thickness of the rectangle. Defaults to 2.
+        comment_text (_type_, optional): A comment string added to the rectangle with same color. Defaults to None.
 
-        xmin, ymin, xmax, ymax : int
-            2-dimentional coordinate values of two spot, minimum and maximum of rectangle (required)
-
-        color : tuple
-            The color of rectangle and text by BGR tuple form (required)
-
-        thickness : int
-            The line thickness of the rectangle (required)
-
-        comment_text : str
-            A comment string added to the rectangle with same color
-
-        Returns
-        -------
-        np.ndarray
-            Image array with rectangle
+    Returns:
+        np.ndarray: Image array with rectangle
     """
     img = cv2.rectangle(img, (xmin, ymin), (xmax, ymax), color, thickness)
     if comment_text is not None:
@@ -50,28 +38,18 @@ def draw_rectangle_box(img: np.ndarray, xmin: int, ymin: int, xmax: int, ymax: i
 
 def extract_dcm_meta(dcm_path: str, meta_list: list, additional_meta_list=None) -> dict:
     """
-        Load a dicom image and extract given meta information.
+    Load a dicom image and extract given meta information.
 
-        Raises
-        ------
-        ValueError
-            If meta_list or additional_meta_list have non-string type element
+    Args:
+        dcm_path (str): Dicom file path to extract meta information
+        meta_list (list): Metadata key list to extract, not allowing None value
+        additional_meta_list (list, optional): Additional metadata key list to extract, allowing None value. Defaults to None.
 
-        Parameters
-        ----------
-        dcm_path : String
-            Dicom file path to extract meta information (required)
+    Raises:
+        TypeError: If meta_list or additional_meta_list have non-string type element.
 
-        meta_list : List
-            metadata key list to extract, not allowing None value (required)
-
-        additional_meta_list : List
-            additaion metadata key list to extract, allowing None value
-
-        Returns
-        -------
-        Dictionary
-            A key-value set of dicom meta
+    Returns:
+        dict: A key-value set of dicom meta
     """
     if not check_type_list_element(meta_list, str):
         raise TypeError("The all element types of meta_list variable must be <class 'str'>")
@@ -97,17 +75,14 @@ def extract_dcm_meta(dcm_path: str, meta_list: list, additional_meta_list=None) 
 
 def xray_normalize(img: np.ndarray) -> np.ndarray:
     """
-        Apply normalizing process to a xray(grayscale) image.
+    Apply normalizing process to a xray(grayscale) image.
 
-        Parameters
-        ----------
-        img : np.ndarray
-            image array to normalize (required)
+    Args:
+        img (np.ndarray): image array to normalize
 
-        Returns
-        -------
-        np.ndarray
-            Normalized image array
+    Returns:
+        np.ndarray: normalized image array
+        
     """
     img = np.clip(img, 0, np.percentile(img, 99))
     img -= img.min()
@@ -119,19 +94,14 @@ def xray_normalize(img: np.ndarray) -> np.ndarray:
 
 def dcm_to_png(dcm_path: str, png_path: str):
     """
-        Convert a dicom image to png and save it.
-        Some preprocessing logics could be added in this function.
+    Convert a dicom image to png and save it.
+    Some preprocessing logics could be added in this function.
 
-        Parameters
-        ----------
-        dcm_path : String
-            Dicom file path to convert (required)
+    Args:
+        dcm_path (str): Dicom file path to convert
+        png_path (str): PNG file path to save
 
-        png_path : String
-            PNG file path to save (required)
-
-        Returns
-        -------
+    Returns:
         None
     """
     try:
@@ -150,4 +120,3 @@ def dcm_to_png(dcm_path: str, png_path: str):
 
     png_img = Image.fromarray(pixel_array)
     png_img.save(png_path)
-
