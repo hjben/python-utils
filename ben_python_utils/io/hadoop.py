@@ -2,11 +2,11 @@
 This module provide some utilities about Hadoop Ecosystem I/O.
 
 Functions:
-    - get_hdfs_url: create a URL of HDFS api form.
+    - get_hdfs_url: create an URL of HDFS api form.
     - extract_directory: extract directory list in a directory.
     - upload_hdfs_file: upload a file into HDFS system.
     - download_hdfs_file: download files from HDFS system.
-    - get_hive_connection: set a connection with Hive database.
+    - get_hive_connection: set connection with a Hive database.
     - get_dataframe_from_hive: query Hive DB with given HiveQL statement.
 """
 import os
@@ -19,56 +19,42 @@ from ..processing.basic import check_type_dict_value
 
 def get_hdfs_url(hadoop_info: dict, hdfs_dir_path: str, op: str) -> str:
     """
-        Create URL of HDFS api form with composing informations.
+    Create URL of HDFS api form with composing informations.
 
-        Parameters
-        ----------
-        hadoop_info : Dictionary
-            Parameter dictionary for hadoop information (required)
+    Args:
+        hadoop_info (dict):
+            Parameter dictionary for hadoop information
             Keys to be included: USER, PASSWORD, IP, PORT and Values must be given by string variable
             
-            e.g.
-            {'USER': 'user', 'PASSWORD': 'password', 'IP': '127.0.0.1', 'PORT': '8020'}
+            e.g. {'USER': 'user', 'PASSWORD': 'password', 'IP': '127.0.0.1', 'PORT': '8020'}
 
-        hdfs_dir_path : String
-            Data path to upload (required)
+        hdfs_dir_path (str): Data path to upload
+        op (str):
+            Target operation to HDFS 
 
-        op : String
-            Target operation to HDFS (required)
+            e.g. CREATE, LISTSTATUS, OPEN, ...
 
-            e.g.
-            CREATE, LISTSTATUS, OPEN, ...
-
-        Returns
-        -------
-        String
-            Composed string with URL form
+    Returns:
+        str: Composed string with URL form
     """
     return f"http://{hadoop_info['IP']}:{hadoop_info['PORT']}/webhdfs/v1{hdfs_dir_path}?op={op}&user.name={hadoop_info['USER']}&doas={hadoop_info['USER']}"
 
-def upload_hdfs_file(hadoop_info: dict, hdfs_dir_path: str, upload_data) -> str:
+def upload_hdfs_file(hadoop_info: dict, hdfs_dir_path: str, upload_data: object) -> str:
     """
-        Upload a file into HDFS system.
+    Upload a file into HDFS system.
 
-        Parameters
-        ----------
-        hadoop_info : Dictionary
-            Parameter dictionary for hadoop information (required)
+    Args:
+        hadoop_info (dict):
+            Parameter dictionary for hadoop information 
             Keys to be included: USER, PASSWORD, IP, PORT and Values must be given by string variable
             
-            e.g.
-            {'USER': 'user', 'PASSWORD': 'password', 'IP': '127.0.0.1', 'PORT': '8020'}
+            e.g. {'USER': 'user', 'PASSWORD': 'password', 'IP': '127.0.0.1', 'PORT': '8020'}
 
-        hdfs_dir_path : String
-            Data path to upload (required)
+        hdfs_dir_path (str): Data path to upload
+        upload_data (object): Target data to upload
 
-        upload_data : Object
-            Target data to upload (required)
-
-        Returns
-        -------
-        String
-            Response string
+    Returns:
+        str: Response string
     """
     if not check_type_dict_value(hadoop_info, str):
         return None
@@ -85,26 +71,17 @@ def upload_hdfs_file(hadoop_info: dict, hdfs_dir_path: str, upload_data) -> str:
 
 def download_hdfs_file(hadoop_info: dict, hdfs_dir_path: str, local_dir_path: str):
     """
-        Download files from HDFS system.
+    Download files from HDFS system.
 
-        Parameters
-        ----------
-        hadoop_info : Dictionary
-            Parameter dictionary for hadoop information (required)
+    Args:
+        hadoop_info (dict):
+            Parameter dictionary for hadoop information
             Keys to be included: USER, PASSWORD, IP, PORT and Values must be given by string variable
             
-            e.g.
-            {'USER': 'user', 'PASSWORD': 'password', 'IP': '127.0.0.1', 'PORT': '8020'}
+            e.g. {'USER': 'user', 'PASSWORD': 'password', 'IP': '127.0.0.1', 'PORT': '8020'}
 
-        hdfs_dir_path : String
-            Target HDFS data path to download (required)
-
-        local_dir_path : String
-            Local data path to save (required)
-
-        Returns
-        -------
-        None
+        hdfs_dir_path (str): Target HDFS data path to download
+        local_dir_path (str): Local data path to save
     """
     # create target folder
     target_file_path = os.path.join(local_dir_path, hdfs_dir_path.split('/')[-1])
@@ -134,21 +111,19 @@ def download_hdfs_file(hadoop_info: dict, hdfs_dir_path: str, local_dir_path: st
             except Exception as e:
                 print(e)
 
-def get_hive_connection(hive_info: dict, hive_config: dict):
+def get_hive_connection(hive_info: dict, hive_config: dict) -> hive.Connection:
     """
-        Set a connection with Hive database.
+    Set connection with a Hive database.
 
-        Parameters
-        ----------
-        hive_info : Dictionary
-            Parameter dictionary for hive database information (required)
+    Args:
+        hive_info (dict):
+            Parameter dictionary for hive database information
             Keys to be included: user, PASSWORD, IP, port and Values must be given by string variable
             
-            e.g.
-            {'USER': 'user', 'PASSWORD': 'password', 'IP': '127.0.0.1', 'PORT': '10000'}
+            e.g. {'USER': 'user', 'PASSWORD': 'password', 'IP': '127.0.0.1', 'PORT': '10000'}
 
-        hive_config : Dictionary
-            Configuration dictionary of hive database (required)
+        hive_config (dict):
+            Configuration dictionary of hive database
 
             e.g.
             {"tez.am.resource.memory.mb": "8192",
@@ -163,10 +138,8 @@ def get_hive_connection(hive_info: dict, hive_config: dict):
             "tez.am.max.allowed.time-sec.for-read-error": "600",
             "hive.execution.engine": "tez"}
 
-        Returns
-        -------
-        pyhive.hive.Connection
-            Hive connection object
+    Returns:
+        hive.Connection: Hive connection object
     """
     if not check_type_dict_value(hive_info, str) or not check_type_dict_value(hive_config, str):
         return None
@@ -177,17 +150,11 @@ def get_dataframe_from_hive(hive_ql: str, conn: hive.Connection) -> pd.DataFrame
     """
     Querys Hive datadase with given HiveQL statement and returns data with pd.DataFrame form.
 
-    Parameters
-    ----------
-    hive_ql : String
-        HiveQL statement to query (required)
+    Args:
+        hive_ql (str): HiveQL statement to query
+        conn (hive.Connection): Hive connection object
 
-    conn: hive.Connection
-        Hive connection object
-        
     Returns:
-    -------
-    pd.DataFrame
-        Result of query
+        pd.DataFrame: Result of query
     """
     return pd.read_sql(hive_ql, conn)

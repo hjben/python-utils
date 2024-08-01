@@ -11,16 +11,8 @@ import psutil
 
 def cpu_check():
     """
-        Check the CPU usage.
-        Prints the number of CPU core and general CPU usage percent.
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        None
+    Check the CPU usage.
+    Prints the number of CPU core and general CPU usage percent.
     """
     # show CPU core count
     print(f"# of cores: {psutil.cpu_count(logical=False)}")
@@ -31,16 +23,8 @@ def cpu_check():
 
 def memory_check():
     """
-        Check the memory usage.
-        Prints general RAM usage percent and current RAM usage as KB.
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        None
+    Check the memory usage.
+    Prints general RAM usage percent and current RAM usage as KB.
     """
     # general RAM usage
     print(f"memory_usage_percent: {dict(psutil.virtual_memory()._asdict())['percent']}%")

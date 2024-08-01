@@ -16,15 +16,11 @@ def is_hidden(file_name: str) -> bool:
     """
     Get boolean if a file is hidden or not, with linux based OS.
 
-    Parameters
-    ----------
-    file_name : String
-        Target file (required)
+    Args:
+        file_name (str): Target file
 
-    Returns
-    -------
-    Boolean
-        True if a file is hidden, False elsewhere
+    Returns:
+        bool: True if a file is hidden, False elsewhere
     """
     return True if file_name.startswith('.') else False
 
@@ -32,15 +28,11 @@ def extract_directory(root_dir: str) -> list:
     """
     Get directory list in a directory.
 
-    Parameters
-    ----------
-    root_dir : String
-        Target directory (required)
+    Args:
+        root_dir (str): Target directory
 
-    Returns
-    -------
-    List
-        Extracted directory list
+    Returns:
+        list: Extracted directory list
     """
     return [file for file in os.listdir(root_dir) if os.path.isdir(root_dir + file)]
 
@@ -48,15 +40,11 @@ def extract_file(root_dir: str) -> list:
     """
     Get file list in a directory.
 
-    Parameters
-    ----------
-    root_dir : String
-        Target directory (required)
+    Args:
+        root_dir (str): Target directory
 
-    Returns
-    -------
-    List
-        Extracted file list
+    Returns:
+        list: Extracted file list
     """
     return [file for file in os.listdir(root_dir) if os.path.isfile(root_dir + file)]
 
@@ -64,15 +52,11 @@ def expand_relative_path(path: str) -> str:
     """
     Expand relative path and convert into absolute path.
 
-    Parameters
-    ----------
-    path : String
-        Path to expand (required)
+    Args:
+        path (str): Path to expand
 
-    Returns
-    -------
-    String
-        Normalized absolute path
+    Returns:
+        str: Normalized absolute path
     """
     if path.startswith("~"):
         path = os.path.expanduser(path)
@@ -89,14 +73,8 @@ def safe_rmtree(path: str):
     """
     Remove folder with exception handling.
 
-    Parameters
-    ----------
-    path : String
-        Target directory (required)
-
-    Returns
-    -------
-    None
+    Args:
+        path (str): Target directory
     """
     try:
         shutil.rmtree(path)

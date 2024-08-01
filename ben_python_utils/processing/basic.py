@@ -16,24 +16,15 @@ import datetime
 
 def check_type_dict_value(check_dict: dict, check_type: type, dict_keys=None) -> bool:
     """
-        Check type of dictionary value.
+    Check type of dictionary values.
 
-        Parameters
-        ----------
-        check_dict: Dictionary
-            Dictionary object to check (required)
+    Args:
+        check_dict (dict): A dictionary object to check
+        check_type (type): Target type to check
+        dict_keys (list or hashable, optional): Dictionary key to check. If not given, all keys will be used in the target dictionary. Defaults to None.
 
-        check_type: Type object
-            Target type to check (required)
-
-        key: List or a hashable object
-            Dictionary key to check
-            If not given, all keys will be used in the target dictionary
-
-        Returns
-        -------
-        Boolean
-            False If any value of dictionary is not matches to the given type
+    Returns:
+        bool: False If any value of dictionary is not matches to the given type
     """
     if dict_keys is None:
         target_key = check_dict.keys()
@@ -51,28 +42,18 @@ def check_type_dict_value(check_dict: dict, check_type: type, dict_keys=None) ->
         
 def check_type_list_element(check_list: list, check_type: type, index_list=None) -> bool:
     """
-        Check type of list element.
+    Check type of a list elements.
 
-        Raises
-        ------
-        ValueError
-            If the index_list has any invalid index to check_list
+    Args:
+        check_list (list): a list object to check
+        check_type (type): Target type to check
+        index_list (list or int, optional): Target index list or number to check. Defaults to None.
 
-        Parameters
-        ----------
-        check_list: List
-            List object to check (required)
+    Raises:
+        ValueError: If the index_list has any invalid index to check_list
 
-        check_type: Type object
-            Target type to check (required)
-
-        index: List or Integer
-            Target index list or number to check
-
-        Returns
-        -------
-        Boolean
-            False If any value of list is not matches to the given type
+    Returns:
+        bool: False If any value of list is not matches to the given type
     """
     if index_list is None:
         idx_list = range(len(check_list))
@@ -94,20 +75,14 @@ def check_type_list_element(check_list: list, check_type: type, index_list=None)
         
 def convert_type_list_element(target_list: list, convert_type: type) -> bool:
     """
-        Convert type of all elements to given type.
+    Convert type of all list elements to given type.
 
-        Parameters
-        ----------
-        target_list: List
-            List object to convert (required)
+    Args:
+        target_list (list): A list object to convert
+        convert_type (type): Target type to convert
 
-        convert_type: Type object
-            Target type to convert (required)
-
-        Returns
-        -------
-        Boolean
-            False If any value of list is not matches to the given type
+    Returns:
+        bool: False If any value of list is not matches to the given type
     """
     converted_list = copy.deepcopy(target_list)
     for i, element in enumerate(target_list):
@@ -118,22 +93,16 @@ def convert_type_list_element(target_list: list, convert_type: type) -> bool:
 
 def convert_string_to_timedelta(string: str) -> datetime.timedelta:
     """
-        Convert string to time delta.
+    Convert a string into timedelta object.
 
-        Raises
-        ------
-        TypeError
-            If the input is not a valid timedelta string
+    Args:
+        string (str): a string representation of timedelta
 
-        Parameters
-        ----------
-        string : String
-            String representation of time delta (required)
+    Raises:
+        ValueError: If the input string is not a valid timedelta string
 
-        Returns
-        -------
-        datetime.timedelta
-            Converted timedelta object
+    Returns:
+        datetime.timedelta: Converted timedelta object
     """
     # get days
     tmp = string.split('.')
@@ -156,20 +125,14 @@ def convert_string_to_timedelta(string: str) -> datetime.timedelta:
 
 def get_split_index(data, split_n: int) -> list:
     """
-        Get even-split indexes for a list-like object.
+    Get even-split indexes for a list-like object.
 
-        Parameters
-        ----------
-        data : List-like objects
-            Target Data (required)
+    Args:
+        data (list-like): Target Data to split
+        split_n (int): The number of split
 
-        split_n : Integer
-            The number of split (required)
-
-        Returns
-        -------
-        List
-            Index list to split data
+    Returns:
+        list: Index list to split the data
     """
     if isinstance(data, dict):
         return [int(len(list(data.keys())) * (i + 1) / split_n) for i in range(split_n - 1)]
@@ -178,24 +141,15 @@ def get_split_index(data, split_n: int) -> list:
 
 def filter_duplicated_word(text: str, sep=' ', reverse=False) -> str:
     """
-        Remove duplicated words in a string.
+    Remove duplicated words in a string.
 
-        Parameters
-        ----------
-        text : String
-            Target string to remove duplicates (required)
+    Args:
+        text (str): Target string to remove duplicates
+        sep (str, optional): Word seperator. Defaults to ' '.
+        reverse (bool, optional): Decide the direction to removing duplicate words, True if remove barkward and False forward. Defaults to False.
 
-        sep : String
-            Word seperator. Basic value is ' ' (blank)
-
-        reverse : Boolean
-            Decide the direction to removing duplicate words
-            True if remove barkward and False if forward
-
-        Returns
-        -------
-        String
-            String with unique words
+    Returns:
+        str: String with unique words
     """
     if reverse:
         tmp_list = text.split(sep)[::-1]
@@ -211,22 +165,16 @@ def filter_duplicated_word(text: str, sep=' ', reverse=False) -> str:
 
 def element_count(data) -> dict:
     """
-        Calculate the element count of an iterable object.
+    Calculate the element count of an iterable object.
 
-        Raises
-        ------
-        TypeError
-            If the data is not a iterable object
+    Args:
+        data (Iterable): Target data to count element
 
-        Parameters
-        ----------
-        data : Iterable object
-            Target data to count element (required)
+    Raises:
+        TypeError: If the data is not an iterable object
 
-        Returns
-        -------
-        Dictionary
-            A dicationary with key as an element and value as the count of them
+    Returns:
+        dict: A dicationary with key as an element and value as the count of them
     """
     if not hasattr(data, '__iter__'):
         raise TypeError("{} is not iterable".format(type(data)))

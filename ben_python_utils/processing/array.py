@@ -10,17 +10,9 @@ def describe_array(arr:np.ndarray, name=None):
     """
     Describe summary informations of an array.
 
-    Parameters
-    ----------
-    arr : NDArray
-        Target array to describe (required)
-
-    name : str
-        Array name
-
-    Returns
-    -------
-    None
+    Args:
+        arr (np.ndarray): Target array to describe
+        name (str, optional): Array name. Defaults to None.
     """
     if name is not None:
         print(f"========{name}========")

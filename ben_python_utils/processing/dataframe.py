@@ -5,7 +5,7 @@ Functions:
     - check_df: check if the dataframe has the DataFrame type.
     - check_column: Check if the input columns have a valid type.
     - get_all_duplicate: get all duplicated rows.
-    - merge_df: load and merge all xls(xlsm, xlsx) or csv files in a directory.
+    - load_dir: load and merge all xls(xlsm, xlsx) or csv files in a directory.
     - element_count: calculate the element count of an iterable object.
     - convert_str_column_to_datetime: convert a string-formatted DataFrame column into datetime type.
     - generate_dummy: generate dummies from some columns.
@@ -16,21 +16,13 @@ import pandas as pd
 
 def check_df(df: pd.DataFrame):
     """
-    Check if the input dataframe has a valid type
+    Check if the input dataframe has a valid type.
 
-    Raises
-    ------
-    ValueError
-         If the df is not a DataFrame.
+    Args:
+        df (pd.DataFrame): Target dataframe to check
 
-    Parameters
-    ----------
-    df : DataFrame
-        Target dataframe (required)
-
-    Returns
-    -------
-    None
+    Raises:
+        TypeError: If the df is not a DataFrame
     """
     if not isinstance(df, pd.DataFrame):
         raise TypeError("Type of target df name must be <class 'pandas.core.frame.DataFrame'>, but {}".format(type(df)))
@@ -38,22 +30,16 @@ def check_df(df: pd.DataFrame):
 
 def check_column(columns) -> list:
     """
-    Check if the input columns have valid type
+    Check if the input columns have string or list type.
 
-    Raises
-    ------
-    ValueError
-         If the type of columns is not a str or list.
+    Args:
+        columns (str or list): Target column(s) of a DataFrame
 
-    Parameters
-    ----------
-    columns : String or List
-        Target column(s) of dataframe (required)
+    Raises:
+        TypeError: If the type of columns is not a str or list
 
-    Returns
-    -------
-    List
-        Columns list
+    Returns:
+        list: A list of columns
     """
     if isinstance(columns, str):
         columns = [columns]
@@ -68,22 +54,15 @@ def get_all_duplicate(df: pd.DataFrame, column_list: list) -> pd.DataFrame:
     Get all duplicated rows.
     Extract all rows that the return value of 'DataFrame.duplicated' is true.
 
-    Raises
-    ------
-    ValueError
-        If the input DataFrame is empty.
+    Args:
+        df (pd.DataFrame): Target DataFrame
+        column_list (list): Target column(s) in the DataFrame to extract duplicates
 
-    Parameters
-    ----------
-    df : DataFrame
-        Base dataframe (required)
-    column_list : List
-        Target column to extract duplicates (required)
+    Raises:
+        ValueError: If the input DataFrame is empty
 
-    Returns
-    -------
-    DataFrame
-        DataFrame with the rows that the target columns are duplicated
+    Returns:
+        pd.DataFrame: DataFrame with the rows that the target columns are duplicated
     """
     if len(df)==0:
         raise ValueError('DataFrame is empty')
@@ -91,26 +70,17 @@ def get_all_duplicate(df: pd.DataFrame, column_list: list) -> pd.DataFrame:
     return df[df.duplicated(column_list) | df.duplicated(column_list, keep='last')]
 
 
-def merge_df(root_dir: str) -> pd.DataFrame:
+def load_dir(root_dir: str) -> pd.DataFrame:
     """
     Load and merge all xls(xlsm, xlsx) or csv files in a directory.
     Folders in the directory will be ignored.
-    
-    Raises
-    ------
-    TypeError
-        If the input data is not a string.
 
-    Parameters
-    ----------
-    root_dir : String
-        Target directory (required)
+    Args:
+        root_dir (str): Target directory to load
 
-    Returns
-    -------
-    DataFrame
-        Merged dataframe
-    """    
+    Returns:
+        pd.DataFrame: A merged DataFrame
+    """
     return pd.concat(
         [pd.read_csv(root_dir + file) for file in os.listdir(root_dir) if file.split('.')[-1].find('csv') > -1] +
         [pd.read_excel(root_dir + file) for file in os.listdir(root_dir) if file.split('.')[-1].find('xls') > -1]
@@ -119,29 +89,15 @@ def merge_df(root_dir: str) -> pd.DataFrame:
 
 def convert_str_column_to_datetime(df: pd.DataFrame, columns, datetime_format: str) -> pd.DataFrame:
     """
-        Convert a string-formatted DataFrame column into datetime type.
+    Convert a string-formatted DataFrame column into datetime type.
 
-        Raises
-        ------
-        TypeError
-            If the df is not a dataframe.
-            If the type of columns is not a str or list.
+    Args:
+        df (pd.DataFrame): Target dataframe
+        columns (list or str): Target column(s) in the DataFrame to convert
+        datetime_format (str): Datetime format string to convert
 
-        Parameters
-        ----------
-        df : DataFrame
-            Target dataframe (required)
-
-        columns : String or List
-            Target column(s) of dataframe (required)
-
-        datetime_format : String
-            Datetime format to convert (required)
-
-        Returns
-        -------
-        DataFrame
-            Column-converted dataframe
+    Returns:
+        pd.DataFrame: A DataFrame with column-converted
     """
     check_df(df)
     for column in check_column(columns):
@@ -152,26 +108,14 @@ def convert_str_column_to_datetime(df: pd.DataFrame, columns, datetime_format: s
 
 def generate_dummy(df: pd.DataFrame, columns) -> pd.DataFrame:
     """
-        Generate dummy from some columns.
+    Generate dummy from some columns.
 
-        Raises
-        ------
-        TypeError
-            If the df is not a dataframe.
-            If the type of columns is not a str or list.
+    Args:
+        df (pd.DataFrame): Target DataFrame
+        columns (list or str): Target column(s) in the DataFrame to generate
 
-        Parameters
-        ----------
-        df : DataFrame
-            Target dataframe (required)
-
-        columns : String or List
-            Target column(s) of dataframe to generate (required)
-
-        Returns
-        -------
-        DataFrame
-            Dataframe with dummy columns only
+    Returns:
+        pd.DataFrame: A DataFrame with dummy columns only
     """
     check_df(df)
     dummy_df = pd.DataFrame()
@@ -183,26 +127,14 @@ def generate_dummy(df: pd.DataFrame, columns) -> pd.DataFrame:
 
 def drop_column(df: pd.DataFrame, columns) -> pd.DataFrame:
     """
-        Drop some columns from a DataFrame
+    Drop some columns from a DataFrame.
 
-        Raises
-        ------
-        TypeError
-            If the df is not a DataFrame.
-            If the type of columns is not a str or list.
+    Args:
+        df (pd.DataFrame): Target DataFrame
+        columns (list or str): Target column(s) of DataFrame to drop
 
-        Parameters
-        ----------
-        df : DataFrame
-            Target DataFrame (required)
-
-        columns : String or List
-            Target column(s) of DataFrame to drop (required)
-
-        Returns
-        -------
-        DataFrame
-            Column-dropped DataFrame
+    Returns:
+        pd.DataFrame: A DataFrame with some column-dropped
     """
     check_df(df)
     for column in check_column(columns):
