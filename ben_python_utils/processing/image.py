@@ -6,12 +6,14 @@ Functions:
     - extract_dcm_meta: extract given meta information from a dicom file.
     - xray_normalize: add normalizing to a xray(grayscale) image.
     - dcm_to_png: convert a dicom format file to a png image.
+    - show_dcm_image: Describe plot to show a dcm image.
 """
 import cv2
 import pydicom
 import SimpleITK as sitk
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 from PIL import Image
 from .basic import check_type_list_element
@@ -46,7 +48,7 @@ def extract_dcm_meta(dcm_path: str, meta_list: list, additional_meta_list=None) 
         additional_meta_list (list, optional): Additional metadata key list to extract, allowing None value. Defaults to None.
 
     Raises:
-        TypeError: If meta_list or additional_meta_list have non-string type element.
+        TypeError: If meta_list or additional_meta_list have non-string type element
 
     Returns:
         dict: A key-value set of dicom meta
@@ -100,9 +102,6 @@ def dcm_to_png(dcm_path: str, png_path: str):
     Args:
         dcm_path (str): Dicom file path to convert
         png_path (str): PNG file path to save
-
-    Returns:
-        None
     """
     try:
         sitk_img = sitk.GetArrayFromImage(sitk.ReadImage(dcm_path, imageIO='GDCMImageIO'))
@@ -120,3 +119,50 @@ def dcm_to_png(dcm_path: str, png_path: str):
 
     png_img = Image.fromarray(pixel_array)
     png_img.save(png_path)
+
+def show_dcm_img(dcm_path: str, series_idx_range=(None, None), fig_size=None, num_col=1):
+    """
+    Describe plot to show a dcm image.
+
+    Args:
+        dcm_path (str): Target dicom file path to graph
+        series_idx_range (tuple, optional): The range of target series index to show. Defaults to (None, None).
+        fig_size (_type_, optional): Ths size of total graph. Defaults to None.
+        num_col (int, optional): The number of columns in the graph. Defaults to 1.
+
+    Raises:
+        ValueError: The second element of series_idx_range is smaller than first one
+        TypeError: If fig_size is not a tuple type
+    """
+    sitk_img = sitk.GetArrayFromImage(sitk.ReadImage(dcm_path))
+
+    print("[Descriptions]")
+    for meta, value in extract_dcm_meta(dcm_path, ['PatientID', 'Modality', 'Studydate'], ['StudyDescription', 'SeriesDescription', 'BodyPartExamined']).items():
+        print(f"{meta}: {value}")
+    
+    if series_idx_range[0] is None:
+        series_idx_range = (1, series_idx_range[1])
+    if series_idx_range[1] is None:
+        series_idx_range = (series_idx_range[0], sitk_img.shape[0])
+    
+    total_plot_cnt = series_idx_range[1] - series_idx_range[0]
+    if total_plot_cnt < 0:
+        raise ValueError("The first element of series_idx_range must be larger than second one")
+    
+    num_row = total_plot_cnt // num_col + 1
+    if fig_size is not None:
+        if not isinstance(fig_size, tuple):
+            raise TypeError("fig_size must be a tuple type")
+            
+        fig, axes = plt.subplots(num_row, num_col, figsize=fig_size)
+    else:
+        fig, axes = plt.subplots(num_row, num_col, figsize=(6*num_col, 6*num_row))
+
+    for i, series in enumerate(range(series_idx_range[0]-1, series_idx_range[1])):
+        pixel_array = sitk_img[series, :, :]
+        
+        row_ = i//num_col
+        col_ = i%num_col
+        
+        axes[row_][col_].imshow(xray_normalize(pixel_array), 'gray')
+        axes[row_][col_].set_title(f"[Image {series + 1}]")
