@@ -6,6 +6,7 @@ Functions:
     - extract_directory: extract directory list in a directory.
     - extract_file: extract file list in a directory.
     - expand_relative_path: expand relative path and convert into absolute path.
+    - check_file_extension: check extension in a file path.
     - safe_rmtree: remove folder with exception handling.
 """
 import os
@@ -68,6 +69,22 @@ def expand_relative_path(path: str) -> str:
         path = os.path.join(os.path.abspath(os.path.curdir), path[len(os.path.curdir)+1:])
     
     return os.path.normcase(path)
+
+def check_file_extension(file_path: str, ext_list) -> bool:
+    """
+    Check extension form in a given file path.
+
+    Args:
+        file_path (str): File path to check extension
+        ext_list (list or Iterable): An extension list with only lowercase the target file path must have
+
+    Returns:
+        bool: True if the path ends with the given extensions
+    """
+    if any([file_path.lower().endswith('.' + ext) for ext in ext_list]):
+        return True
+    else:
+        return False
 
 def safe_rmtree(path: str):
     """
