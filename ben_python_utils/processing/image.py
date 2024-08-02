@@ -27,7 +27,7 @@ def draw_rectangle_box(img: np.ndarray, xmin: int, ymin: int, xmax: int, ymax: i
         xmin, ymin, xmax, ymax (int): 2-dimentional coordinate values of two spot, minimum and maximum of rectangle
         color (tuple, optional): The color of rectangle and text by BGR tuple form. Defaults to (0, 0, 255).
         thickness (int, optional): The line thickness of the rectangle. Defaults to 2.
-        comment_text (_type_, optional): A comment string added to the rectangle with same color. Defaults to None.
+        comment_text (str, optional): A comment string added to the rectangle with same color. Defaults to None.
 
     Returns:
         np.ndarray: Image array with rectangle
@@ -127,7 +127,7 @@ def show_dcm_img(dcm_path: str, series_idx_range=(None, None), fig_size=None, nu
     Args:
         dcm_path (str): Target dicom file path to graph
         series_idx_range (tuple, optional): The range of target series index to show. Defaults to (None, None).
-        fig_size (_type_, optional): Ths size of total graph. Defaults to None.
+        fig_size (tuple, optional): Ths size of total graph, which is a composed tuple of (weight, height). Defaults to None.
         num_col (int, optional): The number of columns in the graph. Defaults to 1.
 
     Raises:
