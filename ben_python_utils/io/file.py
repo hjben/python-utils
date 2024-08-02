@@ -76,12 +76,15 @@ def check_file_extension(file_path: str, ext_list) -> bool:
 
     Args:
         file_path (str): File path to check extension
-        ext_list (list or Iterable): An extension list with only lowercase the target file path must have
+        ext_list (str or Iterable): An extension string or list with only lowercase the target file path must have
 
     Returns:
         bool: True if the path ends with the given extensions
     """
-    if any([file_path.lower().endswith('.' + ext) for ext in ext_list]):
+    if isinstance(ext_list, str):
+        ext_list = [ext_list]
+
+    if any([file_path.lower().endswith(f'.{ext}') for ext in ext_list]):
         return True
     else:
         return False
