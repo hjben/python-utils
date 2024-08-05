@@ -56,6 +56,10 @@ def check_type_list_element(check_list: list, check_type: type, index_list=None)
     Returns:
         bool: False If any value of list is not matches to the given type
     """
+    if len(check_list)==0:
+        print("No elements in check_list")
+        return False
+    
     if index_list is None:
         idx_list = range(len(check_list))
     elif isinstance(index_list, int):
@@ -63,7 +67,7 @@ def check_type_list_element(check_list: list, check_type: type, index_list=None)
     else:
         idx_list = index_list
 
-    check_idx_list = [idx for idx in index_list if idx >= len(index_list)]
+    check_idx_list = [idx for idx in idx_list if idx >= len(idx_list)]
     if len(check_idx_list) > 0:
         raise ValueError(f'Invalid index found in index_list: {str(check_idx_list)}')
 
