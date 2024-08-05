@@ -5,7 +5,7 @@ Functions:
     - draw_rectangle_box: Add a rectangle box in a image.
     - extract_dcm_meta: extract given meta information from a dicom file.
     - xray_normalize: add normalizing to a xray(grayscale) image.
-    - dcm_to_png: convert a dicom format file to a png image.
+    - dcm_to_img: convert a dicom format file to a image-format file.
     - show_dcm_image: Describe plot to show a dcm image.
 """
 import os
@@ -99,14 +99,19 @@ def xray_normalize(img: np.ndarray) -> np.ndarray:
 
     return img
 
-def dcm_to_png(dcm_path: str, png_path: str, series_idx_range=(None, None)):
+def dcm_to_img(dcm_path: str, img_path: str, target_ext='png', series_idx_range=(None, None)):
     """
-    Convert a dicom image to png and save it.
+    Convert a dicom to image-format file and save it.
     Some preprocessing logics could be added in this function.
 
     Args:
         dcm_path (str): Dicom file path to convert
-        png_path (str): PNG file path to save
+        img_path (str): Target image file path to save
+        target_ext (str, optional): Image extension to save. Defaults to 'png'.
+        series_idx_range (tuple, optional): _description_. Defaults to (None, None).
+
+    Raises:
+        ValueError: If dcm_path or img_path have wrong extension format
     """
     if not check_file_extension(dcm_path, ['dcm', 'dicom']):
         raise ValueError("dcm_path has wrong extension of dicom format")
@@ -114,7 +119,7 @@ def dcm_to_png(dcm_path: str, png_path: str, series_idx_range=(None, None)):
     try:
         sitk_img = sitk.GetArrayFromImage(sitk.ReadImage(dcm_path, imageIO='GDCMImageIO'))
     except RuntimeError:
-        print(f"File can't be read: {dcm_path}")
+        print(f"DCM file could't be read: {dcm_path}")
         return None
 
     if len(sitk_img.shape)==4:
@@ -125,9 +130,23 @@ def dcm_to_png(dcm_path: str, png_path: str, series_idx_range=(None, None)):
     if series_idx_range[1] is None:
         series_idx_range = (series_idx_range[0], sitk_img.shape[0])
 
-    png_file_name = png_path.split(os.path.sep)[-1]
-    if not check_file_extension(png_file_name, 'png'):
-        raise ValueError("png_path has wrong extension of image format")
+    ext_split = img_path.split(os.path.sep)[-1].split('.')
+    if len(ext_split)==1:
+        img_name = ext_split[0]
+        ext_to_save = target_ext
+    else:
+        if ext_split[0]=='': # hidden data path
+            img_name = '.'.join(ext_split[:2])
+            if len(ext_split)==2:
+                ext_to_save = target_ext
+            else:
+                ext_to_save = ext_split[-1]
+        else:
+            img_name = ext_split[0]
+            ext_to_save = ext_split[-1]
+
+    if not check_file_extension('.'.join([img_name, ext_to_save]), target_ext):
+        raise ValueError(f"img_path has wrong extension of image format: {ext_to_save}")
     
     for series in range(series_idx_range[0]-1, series_idx_range[1]):
         pixel_array = sitk_img[series, :, :]
@@ -135,8 +154,7 @@ def dcm_to_png(dcm_path: str, png_path: str, series_idx_range=(None, None)):
         ### could add any preprocessing procedures below
         # pixel_array = xray_normalize(pixel_array)
 
-        png_img = Image.fromarray(pixel_array)
-        png_img.save(os.path.join(png_path.split(os.path.sep)[:-1], png_file_name.split('.')[0] + f"_{series}.{png_file_name.split('.')[1]}"))
+        Image.fromarray(pixel_array).save(os.path.join(os.path.sep.join(img_path.split(os.path.sep)[:-1]), img_name + f"_{series}.{ext_to_save}"))
 
 def show_dcm_img(dcm_path: str, series_idx_range=(None, None), fig_size=None, num_col=1):
     """
