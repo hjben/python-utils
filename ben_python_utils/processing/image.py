@@ -17,7 +17,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from PIL import Image
-from .basic import check_type_list_element
+from .basic import check_type_list_element, get_variable_name
 from ..io.file import check_file_extension
 
 def draw_rectangle_box(img: np.ndarray, xmin: int, ymin: int, xmax: int, ymax: int, color=(0, 0, 255), thickness=2, comment_text=None) -> np.ndarray:
@@ -98,6 +98,62 @@ def xray_normalize(img: np.ndarray) -> np.ndarray:
     img = img.astype(np.uint8)
 
     return img
+
+def select_dcm_with_meta(meta_list: dict, target_key_list, include_desc_list=list(), exclude_desc_list=list()) -> bool:
+    """
+    Search keywords in some target metadata value and select the DICOM file.
+    The metadata value in target_key_list includes any keywords in include_desc_list, then the DICOM file is choosed.
+    On the other hand, the metadata value includes any in exclude_desc_list, then is screened.
+    If the element count of meta_list is 0, return False.
+
+    Args:
+        meta_list (dict): DICOM metadata list dictionary
+        target_key_list (str or Iterable): Target metadata keys to apply selection
+        include_desc_list (str or Iterable, optional): Description strings to include a file. Defaults to list().
+        exclude_desc_list (str or Iterable, optional): Description strings to exclude a file. Defaults to list().
+
+    Raises:
+        TypeError: If type of any the elements of input Iterable is not a string
+
+    Returns:
+        bool: True if the dcm file is choosed
+    """
+    if len(meta_list)==0:
+        return False
+    
+    list_variables = [target_key_list, include_desc_list, exclude_desc_list]
+    for i, list_var in enumerate(list_variables):
+        if isinstance(list_var, str):
+            list_variables[i] = [list_var]
+    
+        if len(list_var) > 0 and not check_type_list_element(list_var, str):
+            raise TypeError(f"The all element types of {get_variable_name(list_var)} variable must be <class 'str'> or empty")
+
+    for flag_meta in list_variables[0]:
+        try:
+            include_flag_list = list()
+            exclude_flag_list = list()
+                
+            # check metadata
+            for biz_meta in list_variables[1]:
+                try:
+                    include_flag_list.append(biz_meta.lower() in meta_list[flag_meta].lower())
+                except KeyError:
+                    return False
+
+                if any(include_flag_list):
+                    break
+
+            for biz_meta in list_variables[2]:
+                try:
+                    exclude_flag_list.append(biz_meta.lower() not in meta_list[flag_meta].lower())
+                except KeyError:
+                    return False
+
+            if any(include_flag_list) and all(exclude_flag_list): 
+                return True
+        except KeyError:
+            return False
 
 def dcm_to_img(dcm_path: str, img_path: str, target_ext='png', series_idx_range=(None, None)):
     """
