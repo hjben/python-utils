@@ -9,6 +9,7 @@ Functions:
     - get_split_index: provide even-split indexes for a list-like object.
     - filter_duplicated_word: remove duplicated words in a string.
     - element_count: calculate the element count of an iterable object.
+    - get_variable_name: extract variable name to a string.
 """
 import copy
 import datetime
@@ -187,3 +188,15 @@ def element_count(data) -> dict:
             cnt_dict[element] = 1
         
     return cnt_dict
+
+def get_variable_name(variable) -> str:
+    """
+    Get variable name with string type.
+
+    Args:
+        variable (Object): A variable to extract name
+
+    Returns:
+        str: The name of a variable
+    """
+    return f'{variable=}'.split('=')[0]
