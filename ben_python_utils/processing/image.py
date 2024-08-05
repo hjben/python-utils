@@ -108,7 +108,7 @@ def dcm_to_img(dcm_path: str, img_path: str, target_ext='png', series_idx_range=
         dcm_path (str): Dicom file path to convert
         img_path (str): Target image file path to save
         target_ext (str, optional): Image extension to save. Defaults to 'png'.
-        series_idx_range (tuple, optional): _description_. Defaults to (None, None).
+        series_idx_range (tuple, optional): The range of target series index to convert. Defaults to (None, None).
 
     Raises:
         ValueError: If dcm_path or img_path have wrong extension format
