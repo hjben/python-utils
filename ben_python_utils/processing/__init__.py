@@ -2,5 +2,6 @@ __all__ = [
     'array',
     'basic',
     'dataframe',
-    'image'
+    'image',
+    'sql'
 ]
