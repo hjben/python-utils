@@ -11,6 +11,7 @@ Functions:
 import copy
 import pandas as pd
 
+
 def generate_insert_sql(table_name: str, df: pd.DataFrame, col_list=None) -> str:
     """
     Generate a SQL statement of inserting data from a DataFrame.

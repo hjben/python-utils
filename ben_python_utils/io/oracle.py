@@ -12,6 +12,7 @@ import pandas as pd
 
 from ..processing.basic import check_type_dict_value
 
+
 def get_oracle_connection(oracle_info: dict) -> oracledb.Connection:
     """
     Set connection with an Oracle database.

@@ -20,6 +20,7 @@ from PIL import Image
 from .basic import check_type_list_element, get_variable_name
 from ..io.file import check_file_extension
 
+
 def draw_rectangle_box(img: np.ndarray, xmin: int, ymin: int, xmax: int, ymax: int, color=(0, 0, 255), thickness=2, comment_text=None) -> np.ndarray:
     """
     Add a rectangle box and comment text in a image.

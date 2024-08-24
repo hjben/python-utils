@@ -14,6 +14,7 @@ Functions:
 import os
 import pandas as pd
 
+
 def check_df(df: pd.DataFrame):
     """
     Check if the input dataframe has a valid type.

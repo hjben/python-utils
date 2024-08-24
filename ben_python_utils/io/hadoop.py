@@ -17,6 +17,7 @@ from pyhive import hive
 
 from ..processing.basic import check_type_dict_value
 
+
 def get_hdfs_url(hadoop_info: dict, hdfs_dir_path: str, op: str) -> str:
     """
     Create URL of HDFS api form with composing informations.
