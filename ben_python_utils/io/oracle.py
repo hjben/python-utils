@@ -49,7 +49,23 @@ def get_dataframe_from_oracle(sql: str, conn: oracledb.Connection) -> pd.DataFra
     if df.shape[0]!=0:
         df.columns = [desc[0] for desc in cursor.description]
 
+    cursor.close()
+
     return df
+
+def set_data_to_oracle(sql: str, conn: oracledb.Connection):
+    """
+    Update or insert data to a OracleDB with given SQL statement
+
+    Args:
+        sql (str): SQL statement to update or insert
+        conn (oracledb.Connection): OracleDB connection object
+    """
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    cursor.execute('commit')
+
+    cursor.close()
 
 def close_connection(conn_object: oracledb.Connection):
     """
