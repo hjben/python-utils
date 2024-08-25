@@ -11,6 +11,7 @@ Functions:
 import copy
 import pandas as pd
 
+from basic import check_element_existance, convert_to_iterable
 
 def generate_insert_sql(table_name: str, df: pd.DataFrame, col_list=None) -> str:
     """
@@ -30,7 +31,7 @@ def generate_insert_sql(table_name: str, df: pd.DataFrame, col_list=None) -> str
     if col_list is None:
         col_list = list(df.columns)
     else:
-        not_exist_list = [col for col in col_list if col not in list(df.columns)]
+        not_exist_list = check_element_existance(col_list, list(df.columns), not_in=True)
         if len(not_exist_list) > 0:
             raise ValueError(f"Some values in col_list not exist in column list of df: {','.join(not_exist_list)}")
 
@@ -74,7 +75,7 @@ def generate_update_sql(table_name: str, df: pd.DataFrame, filter_col: str , fil
     if col_list is None:
         col_list = list(df.columns)
     else:
-        not_exist_list = [col for col in col_list if col not in list(df.columns)]
+        not_exist_list = check_element_existance(col_list, list(df.columns), not_in=True)
         if len(not_exist_list) > 0:
             raise ValueError(f"Some values in col_list not exist in column list of df: {','.join(not_exist_list)}")
 
@@ -118,18 +119,15 @@ def add_condition_to_sql(sql: str, filter_col, filter_value) -> str:
     Returns:
         str: SQL statement with where contition added
     """
-    if not isinstance(filter_col, list):
-        filter_col = [filter_col]
-    if not isinstance(filter_value, list):
-        filter_value = [filter_value]
-
+    filter_col = convert_to_iterable(filter_col)
+    filter_value = convert_to_iterable(filter_value)
     if len(filter_col)!=len(filter_value):
         raise ValueError("The number of element of filter_col and filter_value not matches")
     
     sql +=  " where "
     for i, (col, value) in enumerate(zip(filter_col, filter_value)):
         sql += f"{col}={value}"
-        if i!=len(filter_col) - 1:
+        if i!=len(filter_col)-1:
             sql += " and "
     
     return sql
@@ -157,8 +155,7 @@ def generate_select_sql(table_name: str, filter_col=None, filter_value=None, col
         
     if filter_col is not None and filter_value is not None:
         return add_condition_to_sql(f"select {col_sql} from {table_name}", filter_col, filter_value)
-    else:
-        return f"select {col_sql} from {table_name}"
+    return f"select {col_sql} from {table_name}"
     
 def generate_delete_sql(table_name: str, filter_col=None, filter_value=None) -> str:
     """
@@ -174,5 +171,4 @@ def generate_delete_sql(table_name: str, filter_col=None, filter_value=None) -> 
     """
     if filter_col is not None and filter_value is not None:
         return add_condition_to_sql(f"delete {table_name}", filter_col, filter_value)
-    else:
-        return f"delete {table_name}"
+    return f"delete {table_name}"

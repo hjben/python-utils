@@ -17,7 +17,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from PIL import Image
-from basic import check_type_list_element, get_variable_name
+from basic import check_type_list_element, get_variable_name, convert_to_iterable
 from ..io.file import check_file_extension
 
 
@@ -125,7 +125,7 @@ def select_dcm_with_meta(meta_list: dict, target_key_list, include_desc_list=lis
     list_variables = [target_key_list, include_desc_list, exclude_desc_list]
     for i, list_var in enumerate(list_variables):
         if isinstance(list_var, str):
-            list_variables[i] = [list_var]
+            list_variables[i] = convert_to_iterable(list_var)
     
         if len(list_var) > 0 and not check_type_list_element(list_var, str):
             raise TypeError(f"The all element types of {get_variable_name(list_var)} variable must be <class 'str'> or empty")

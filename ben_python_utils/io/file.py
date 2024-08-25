@@ -84,10 +84,7 @@ def check_file_extension(file_path: str, ext_list) -> bool:
     if isinstance(ext_list, str):
         ext_list = [ext_list]
 
-    if any([file_path.lower().endswith(f'.{ext}') for ext in ext_list]):
-        return True
-    else:
-        return False
+    return True if any([file_path.lower().endswith(f'.{ext}') for ext in ext_list]) else False
 
 def safe_rmtree(path: str):
     """

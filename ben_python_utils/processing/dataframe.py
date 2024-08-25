@@ -14,6 +14,8 @@ Functions:
 import os
 import pandas as pd
 
+from basic import convert_to_iterable
+
 
 def check_df(df: pd.DataFrame):
     """
@@ -27,7 +29,6 @@ def check_df(df: pd.DataFrame):
     """
     if not isinstance(df, pd.DataFrame):
         raise TypeError("Type of target df name must be <class 'pandas.core.frame.DataFrame'>, but {}".format(type(df)))
-
 
 def check_column(columns) -> list:
     """
@@ -43,12 +44,11 @@ def check_column(columns) -> list:
         list: A list of columns
     """
     if isinstance(columns, str):
-        columns = [columns]
+        columns = convert_to_iterable(columns)
     elif not isinstance(columns, list):
         raise TypeError("Type of target column name must be <class 'str'> or <class 'list'>, but {}".format(type(columns)))
 
     return columns
-
 
 def get_all_duplicate(df: pd.DataFrame, column_list: list) -> pd.DataFrame:
     """
@@ -70,7 +70,6 @@ def get_all_duplicate(df: pd.DataFrame, column_list: list) -> pd.DataFrame:
 
     return df[df.duplicated(column_list) | df.duplicated(column_list, keep='last')]
 
-
 def load_dir(root_dir: str) -> pd.DataFrame:
     """
     Load and merge all xls(xlsm, xlsx) or csv files in a directory.
@@ -86,7 +85,6 @@ def load_dir(root_dir: str) -> pd.DataFrame:
         [pd.read_csv(root_dir + file) for file in os.listdir(root_dir) if file.split('.')[-1].find('csv') > -1] +
         [pd.read_excel(root_dir + file) for file in os.listdir(root_dir) if file.split('.')[-1].find('xls') > -1]
     )
-
 
 def convert_str_column_to_datetime(df: pd.DataFrame, columns, datetime_format: str) -> pd.DataFrame:
     """
@@ -106,7 +104,6 @@ def convert_str_column_to_datetime(df: pd.DataFrame, columns, datetime_format: s
 
     return df
 
-
 def generate_dummy(df: pd.DataFrame, columns) -> pd.DataFrame:
     """
     Generate dummy from some columns.
@@ -124,7 +121,6 @@ def generate_dummy(df: pd.DataFrame, columns) -> pd.DataFrame:
         dummy_df = pd.concat([dummy_df, pd.get_dummies(df[column], drop_first=True)], axis=1)
 
     return dummy_df
-
 
 def drop_column(df: pd.DataFrame, columns) -> pd.DataFrame:
     """

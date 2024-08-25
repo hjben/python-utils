@@ -20,7 +20,6 @@ def cpu_check():
     # general CPU usage
     print(f"CPU_usage_percent: {psutil.cpu_percent()}%")
 
-
 def memory_check():
     """
     Check the memory usage.

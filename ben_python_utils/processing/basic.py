@@ -2,6 +2,7 @@
 This module provide some utilities to manipulate with basic data-structures of python.
 
 Functions:
+    - convert_to_iterable: convert a non-iterable variable to list.
     - check_type_dict_value: check the values' type of a dictionary.
     - check_type_list_element: check the elements' type of a list.
     - convert_type_list_element: convert type of all elements.
@@ -11,11 +12,22 @@ Functions:
     - element_count: calculate the element count of an iterable object.
     - get_variable_name: extract variable name to a string.
     - check_element_existance: check element existance of a list.
-    - convert_to_iterable: convert a non-iterable variable to list.
 """
 import copy
 import datetime
 
+
+def convert_to_iterable(variable):
+    """
+    Check if a variable is iterable and convert a non-iterable or str to list.
+
+    Args:
+        variable (Object): Target variable to check
+
+    Returns:
+        Iterable : A list-like object
+    """
+    return [variable] if isinstance(variable, str) or not hasattr(variable, '__iter__') else variable
 
 def check_type_dict_value(check_dict: dict, check_type: type, dict_keys=None) -> bool:
     """
@@ -32,7 +44,7 @@ def check_type_dict_value(check_dict: dict, check_type: type, dict_keys=None) ->
     if dict_keys is None:
         target_key = check_dict.keys()
     elif not isinstance(dict_keys, list):
-        target_key = [dict_keys]
+        target_key = convert_to_iterable(dict_keys)
     else:
         target_key = dict_keys
     
@@ -40,7 +52,7 @@ def check_type_dict_value(check_dict: dict, check_type: type, dict_keys=None) ->
         if not isinstance(check_dict[key], check_type):
             print("Type of target values must be {}, but some of value has {}".format(check_type, type(check_dict[key])))
             return False
-    
+
     return True
         
 def check_type_list_element(check_list: list, check_type: type, index_list=None) -> bool:
@@ -65,7 +77,7 @@ def check_type_list_element(check_list: list, check_type: type, index_list=None)
     if index_list is None:
         idx_list = range(len(check_list))
     elif isinstance(index_list, int):
-        idx_list = [index_list]
+        idx_list = convert_to_iterable(index_list)
     else:
         idx_list = index_list
 
@@ -143,8 +155,7 @@ def get_split_index(data, split_n: int) -> list:
     """
     if isinstance(data, dict):
         return [int(len(list(data.keys())) * (i + 1) / split_n) for i in range(split_n - 1)]
-    else:
-        return [int(len(data) * (i + 1) / split_n) for i in range(split_n - 1)]
+    return [int(len(data) * (i + 1) / split_n) for i in range(split_n - 1)]
 
 def filter_duplicated_word(text: str, sep=' ', reverse=False) -> str:
     """
@@ -225,22 +236,4 @@ def check_element_existance(target_list, criteria_list, not_in=False) -> list:
     if not hasattr(criteria_list, '__iter__'):
         raise TypeError("{} is not iterable".format(type(criteria_list)))
     
-    if not_in:
-        return [col for col in target_list if col not in criteria_list]
-    else:
-        return [col for col in target_list if col in criteria_list]
-    
-def convert_to_iterable(variable):
-    """
-    Check if a variable is iterable and convert a non-iterable to list.
-
-    Args:
-        variable (Object): Target variable to check
-
-    Returns:
-        Iterable : A list-like object
-    """
-    if not hasattr(variable, '__iter__'):
-        return [variable]
-    
-    return variable
+    return [col for col in target_list if col not in criteria_list] if not_in else [col for col in target_list if col in criteria_list]
