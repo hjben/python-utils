@@ -10,7 +10,8 @@ Functions:
     - filter_duplicated_word: remove duplicated words in a string.
     - element_count: calculate the element count of an iterable object.
     - get_variable_name: extract variable name to a string.
-    - check_element_existance: Check element existance of a list.
+    - check_element_existance: check element existance of a list.
+    - convert_to_iterable: convert a non-iterable variable to list.
 """
 import copy
 import datetime
@@ -228,3 +229,18 @@ def check_element_existance(target_list, criteria_list, not_in=False) -> list:
         return [col for col in target_list if col not in criteria_list]
     else:
         return [col for col in target_list if col in criteria_list]
+    
+def convert_to_iterable(variable):
+    """
+    Check if a variable is iterable and convert a non-iterable to list.
+
+    Args:
+        variable (Object): Target variable to check
+
+    Returns:
+        Iterable : A list-like object
+    """
+    if not hasattr(variable, '__iter__'):
+        return [variable]
+    
+    return variable
