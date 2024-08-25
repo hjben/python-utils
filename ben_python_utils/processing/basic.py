@@ -206,13 +206,14 @@ def get_variable_name(variable) -> str:
     """
     return f'{variable=}'.split('=')[0]
 
-def check_element_existance(target_list, criteria_list) -> list:
+def check_element_existance(target_list, criteria_list, not_in=False) -> list:
     """
     Check element existance of a list by comparing with another list.
 
     Args:
         target_list (Iterable): Target list to check
         criteria_list (Iterable): Criteria list to check
+        not_in (bool): Check not existance if True 
 
     Returns:
         list: A filtered list of check_list the elements are in criteria_list
@@ -223,4 +224,7 @@ def check_element_existance(target_list, criteria_list) -> list:
     if not hasattr(criteria_list, '__iter__'):
         raise TypeError("{} is not iterable".format(type(criteria_list)))
     
-    return [col for col in target_list if col in criteria_list]
+    if not_in:
+        return [col for col in target_list if col not in criteria_list]
+    else:
+        return [col for col in target_list if col in criteria_list]
