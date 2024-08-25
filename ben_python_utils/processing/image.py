@@ -17,7 +17,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from PIL import Image
-from .basic import check_type_list_element, get_variable_name
+from basic import check_type_list_element, get_variable_name
 from ..io.file import check_file_extension
 
 
