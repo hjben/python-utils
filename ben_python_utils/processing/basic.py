@@ -10,6 +10,7 @@ Functions:
     - filter_duplicated_word: remove duplicated words in a string.
     - element_count: calculate the element count of an iterable object.
     - get_variable_name: extract variable name to a string.
+    - check_element_existance: Check element existance of a list.
 """
 import copy
 import datetime
@@ -204,3 +205,22 @@ def get_variable_name(variable) -> str:
         str: The name of a variable
     """
     return f'{variable=}'.split('=')[0]
+
+def check_element_existance(target_list, criteria_list) -> list:
+    """
+    Check element existance of a list by comparing with another list.
+
+    Args:
+        target_list (Iterable): Target list to check
+        criteria_list (Iterable): Criteria list to check
+
+    Returns:
+        list: A filtered list of check_list the elements are in criteria_list
+    """
+    if not hasattr(target_list, '__iter__'):
+        raise TypeError("{} is not iterable".format(type(target_list)))
+    
+    if not hasattr(criteria_list, '__iter__'):
+        raise TypeError("{} is not iterable".format(type(criteria_list)))
+    
+    return [col for col in target_list if col in criteria_list]
