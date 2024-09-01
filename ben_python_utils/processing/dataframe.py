@@ -17,7 +17,7 @@ import pandas as pd
 from basic import convert_to_iterable
 
 
-def check_df(df: pd.DataFrame):
+def check_df(df):
     """
     Check if the input dataframe has a valid type.
 
@@ -138,4 +138,29 @@ def drop_column(df: pd.DataFrame, columns) -> pd.DataFrame:
         if column in df.columns:
             df = df.drop(column, axis=1)
 
+    return df
+
+def fill_na(df: pd.DataFrame, columns, method=None) -> pd.DataFrame:
+    """
+    Fill NA values to some columns from a DataFrame. Fill with mean(or mode) value of column if method is not given.
+
+    Args:
+        df (pd.DataFrame): Target DataFrame
+        columns (list or str): Target column(s) of DataFrame to fill
+        method (str, optional): NA filling method. Defaults to None.
+
+    Returns:
+        pd.DataFrame: A DataFrame with somc column-filled
+    """
+    check_df(df)        
+    for column in check_column(columns):
+        if df[column].isnull().values.any():
+            if method is not None:
+                df[column] = df[column].fillna(method=method)
+            else:
+                if df[column].dtype == 'category':
+                    df[column] = df[column].fillna(df[column].mode().iloc[0])
+                else:
+                    df[column] = df[column].fillna(df[column].mean())
+    
     return df
